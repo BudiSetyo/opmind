@@ -1,12 +1,12 @@
 import React from 'react';
-import {Container, Content, Text, Item, Input, Label} from 'native-base';
 import Login from './src/screens/login/Login';
+import {View} from 'react-native';
 
 const App = () => {
   return (
-    <Container>
+    <View>
       <Login />
-    </Container>
+    </View>
   );
 };
 

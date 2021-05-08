@@ -1,25 +1,40 @@
-import React from 'react';
-import {Container, Header, Content, Footer, Text} from 'native-base';
-import {StyleSheet} from 'react-native';
+import React, {useState} from 'react';
+
+import {View, Text, StyleSheet} from 'react-native';
 
 import Input from '../../components/input/index';
 
 const Login = () => {
+  const [user, setUser] = useState('');
+  const [password, setPassword] = useState('');
   return (
-    <Container style={styles.container}>
-      <Header style={styles.header} noShadow={true}>
-        <Text>Login</Text>
-      </Header>
-      <Content>
-        <Input placeholder="Username or Email" type="text" />
-        <Input placeholder="Password" type="password" />
-      </Content>
-      <Footer style={styles.footer}>
-        <Text>
-          New user? <Text>Register</Text>
-        </Text>
-      </Footer>
-    </Container>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Login</Text>
+      </View>
+      <View>
+        <View style={styles.input}>
+          <Input
+            placeholder="Username or Email"
+            type="text"
+            value={user}
+            onChange={e => setUser(e)}
+          />
+        </View>
+
+        <View style={styles.input}>
+          <Input
+            placeholder="Password"
+            type="password"
+            value={password}
+            onChange={e => setPassword(e)}
+          />
+        </View>
+        <View style={styles.forgot}>
+          <Text>Forgot password?</Text>
+        </View>
+      </View>
+    </View>
   );
 };
 
@@ -27,14 +42,20 @@ export default Login;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#E5E5E5',
+    paddingHorizontal: 32,
   },
   header: {
-    backgroundColor: 'transparent',
     alignItems: 'center',
+    marginVertical: 46,
   },
-  footer: {
-    backgroundColor: 'transparent',
-    alignItems: 'center',
+  headerText: {
+    fontSize: 32,
+    fontWeight: 'bold',
+  },
+  input: {
+    marginVertical: 10,
+  },
+  forgot: {
+    alignItems: 'flex-end',
   },
 });
