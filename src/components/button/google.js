@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(0, 13, 79, 0.08)',
-    padding: 12,
+    padding: 14,
     borderRadius: 10,
   },
   btnText: {

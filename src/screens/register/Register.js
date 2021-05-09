@@ -1,12 +1,6 @@
 import React, {useState} from 'react';
 
-import {
-  ScrollView,
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import {ScrollView, View, Text, StyleSheet} from 'react-native';
 
 import Input from '../../components/input/index';
 import Btn from '../../components/button/index';
@@ -18,7 +12,12 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [valPass, setValPass] = useState('');
   return (
-    <ScrollView>
+    <ScrollView style={{backgroundColor: '#E5E5E5'}}>
+      <StatusBar
+        animated={true}
+        barStyle="dark-content"
+        backgroundColor="#E5E5E5"
+      />
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerText}>Register</Text>
@@ -51,6 +50,14 @@ const Register = () => {
             />
           </View>
 
+          {!password ? (
+            <Text style={{display: 'none'}} />
+          ) : password.length < 8 ? (
+            <Text>Must be at least 8 character</Text>
+          ) : (
+            <Text style={{display: 'none'}} />
+          )}
+
           <View style={styles.input}>
             <Input
               placeholder="Confirm Password"
@@ -59,6 +66,14 @@ const Register = () => {
               onChange={e => setValPass(e)}
             />
           </View>
+
+          {!valPass ? (
+            <Text style={{display: 'none'}} />
+          ) : valPass === password ? (
+            <Text style={{display: 'none'}} />
+          ) : (
+            <Text>Password does not match!</Text>
+          )}
         </View>
         <View style={styles.btnGroup}>
           <View style={styles.btn}>
@@ -71,7 +86,7 @@ const Register = () => {
         </View>
         <View style={styles.footer}>
           <Text style={{color: '#ADA9BB', marginBottom: 10}}>
-            New user? <Text style={{color: '#5784BA'}}>Register</Text>
+            Already have account? <Text style={{color: '#5784BA'}}>Login</Text>
           </Text>
         </View>
       </View>
@@ -84,6 +99,7 @@ export default Register;
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 32,
+    backgroundColor: '#E5E5E5',
   },
   header: {
     alignItems: 'center',

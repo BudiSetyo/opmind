@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 
 import {
   ScrollView,
+  StatusBar,
   View,
   Text,
   StyleSheet,
@@ -16,7 +17,12 @@ const Login = () => {
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
   return (
-    <ScrollView>
+    <ScrollView style={{backgroundColor: '#E5E5E5'}}>
+      <StatusBar
+        animated={true}
+        barStyle="dark-content"
+        backgroundColor="#E5E5E5"
+      />
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerText}>Login</Text>
