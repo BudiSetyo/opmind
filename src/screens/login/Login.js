@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {connect} from 'react-redux';
 
 import {
   ScrollView,
@@ -8,6 +9,8 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
+
+import {loginHandler} from '../../redux/actions/auth';
 
 import Input from '../../components/input/index';
 import Btn from '../../components/button/index';
@@ -53,7 +56,12 @@ const Login = () => {
         </View>
         <View style={styles.btnGroup}>
           <View style={styles.btn}>
-            <Btn btnText="Login" color="#5784BA" fontColor="white" />
+            <Btn
+              // onPress={() => loginHandler(user, password)}
+              btnText="Login"
+              color="#5784BA"
+              fontColor="white"
+            />
           </View>
           <View style={styles.btn}>
             <BtnGoole btnText="Login with Google" />
@@ -68,6 +76,22 @@ const Login = () => {
     </ScrollView>
   );
 };
+
+// const mapStateToProps = state => {
+//   return {
+//     // authReducer: state.authReducer,
+//   };
+// };
+
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     // loginHandler: (...props) => {
+//     //   dispatch(loginHandler(...props));
+//     // },
+//   };
+// };
+
+// const ConnectLogin = connect(mapStateToProps, mapDispatchToProps)(Login);
 
 export default Login;
 
@@ -100,3 +124,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+// const data = undefined
+
+// console.log(data.name)
