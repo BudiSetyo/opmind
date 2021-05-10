@@ -16,7 +16,7 @@ import Input from '../../components/input/index';
 import Btn from '../../components/button/index';
 import BtnGoole from '../../components/button/google';
 
-const Login = () => {
+const Login = ({OnLoginHandler, navigation}) => {
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
   return (
@@ -49,7 +49,7 @@ const Login = () => {
             />
           </View>
           <View style={styles.forgot}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Reset')}>
               <Text>Forgot password?</Text>
             </TouchableOpacity>
           </View>
@@ -57,7 +57,10 @@ const Login = () => {
         <View style={styles.btnGroup}>
           <View style={styles.btn}>
             <Btn
-              // onPress={() => loginHandler(user, password)}
+              onPress={() => {
+                console.warn('hallo');
+                OnLoginHandler(user, password);
+              }}
               btnText="Login"
               color="#5784BA"
               fontColor="white"
@@ -69,7 +72,12 @@ const Login = () => {
         </View>
         <View style={styles.footer}>
           <Text style={{color: '#ADA9BB', marginBottom: 10}}>
-            New user? <Text style={{color: '#5784BA'}}>Register</Text>
+            New user?{' '}
+            <Text
+              onPress={() => navigation.navigate('Register')}
+              style={{color: '#5784BA'}}>
+              Register
+            </Text>
           </Text>
         </View>
       </View>
@@ -77,23 +85,24 @@ const Login = () => {
   );
 };
 
-// const mapStateToProps = state => {
-//   return {
-//     // authReducer: state.authReducer,
-//   };
-// };
+const mapStateToProps = state => {
+  // console.log(state.authReducer);
+  return {
+    authReducer: state.authReducer,
+  };
+};
 
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     // loginHandler: (...props) => {
-//     //   dispatch(loginHandler(...props));
-//     // },
-//   };
-// };
+const mapDispatchToProps = dispatch => {
+  return {
+    OnLoginHandler: (user, password) => {
+      dispatch(loginHandler(user, password));
+    },
+  };
+};
 
-// const ConnectLogin = connect(mapStateToProps, mapDispatchToProps)(Login);
+const ConnectLogin = connect(mapStateToProps, mapDispatchToProps)(Login);
 
-export default Login;
+export default ConnectLogin;
 
 const styles = StyleSheet.create({
   container: {
@@ -124,7 +133,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-
-// const data = undefined
-
-// console.log(data.name)

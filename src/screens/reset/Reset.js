@@ -12,7 +12,7 @@ import Btn from '../../components/button/index';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Logo from '../../assets/images/reset/reset.svg';
 
-const Reset = () => {
+const Reset = ({navigation}) => {
   const [email, setEmail] = useState('');
   return (
     <ScrollView style={styles.container}>
@@ -22,7 +22,9 @@ const Reset = () => {
         backgroundColor="#E5E5E5"
       />
       <View style={styles.header}>
-        <TouchableOpacity style={{width: 20}}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={{width: 20}}>
           <Icon name="chevron-left" size={20} />
         </TouchableOpacity>
       </View>

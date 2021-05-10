@@ -6,7 +6,7 @@ import Input from '../../components/input/index';
 import Btn from '../../components/button/index';
 import BtnGoole from '../../components/button/google';
 
-const Register = () => {
+const Register = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -86,7 +86,12 @@ const Register = () => {
         </View>
         <View style={styles.footer}>
           <Text style={{color: '#ADA9BB', marginBottom: 10}}>
-            Already have account? <Text style={{color: '#5784BA'}}>Login</Text>
+            Already have account?{' '}
+            <Text
+              onPress={() => navigation.navigate('Login')}
+              style={{color: '#5784BA'}}>
+              Login
+            </Text>
           </Text>
         </View>
       </View>
