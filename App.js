@@ -4,7 +4,7 @@ import Register from './src/screens/register/Register';
 import {View} from 'react-native';
 
 const App = () => {
-  return <Login />;
+  return <Register />;
 };
 
 export default App;

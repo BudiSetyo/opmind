@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-import {ScrollView, View, Text, StyleSheet} from 'react-native';
+import {ScrollView, StatusBar, View, Text, StyleSheet} from 'react-native';
 
 import Input from '../../components/input/index';
 import Btn from '../../components/button/index';
