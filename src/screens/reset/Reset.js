@@ -52,7 +52,12 @@ const Reset = ({navigation}) => {
           />
         </View>
         <View style={styles.button}>
-          <Btn color="#5784BA" btnText="Send" fontColor="#FFF" />
+          <Btn
+            onPress={() => navigation.navigate('Otp')}
+            color="#5784BA"
+            btnText="Send"
+            fontColor="#FFF"
+          />
         </View>
       </View>
     </ScrollView>

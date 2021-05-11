@@ -5,11 +5,9 @@ import GoogleIcon from '../../assets/images/google.svg';
 const google = ({btnText, onPress}) => {
   return (
     <View>
-      <TouchableOpacity style={styles.btn}>
+      <TouchableOpacity onPress={onPress} style={styles.btn}>
         <GoogleIcon />
-        <Text onPress={onPress} style={styles.btnText}>
-          {btnText}
-        </Text>
+        <Text style={styles.btnText}>{btnText}</Text>
       </TouchableOpacity>
     </View>
   );

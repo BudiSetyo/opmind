@@ -8,7 +8,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import Logo from '../../assets/images/reset/success.svg';
-const Change = () => {
+const Change = ({navigation}) => {
   return (
     <ScrollView style={styles.container}>
       <StatusBar
@@ -24,7 +24,7 @@ const Change = () => {
         <Logo />
       </View>
       <View style={styles.btnWrapper}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
           <Text style={styles.btnText}>Login to your account</Text>
         </TouchableOpacity>
       </View>

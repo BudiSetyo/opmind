@@ -58,7 +58,7 @@ const Login = ({OnLoginHandler, navigation}) => {
           <View style={styles.btn}>
             <Btn
               onPress={() => {
-                console.warn('hallo');
+                // console.warn('hallo');
                 OnLoginHandler(user, password);
               }}
               btnText="Login"

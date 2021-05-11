@@ -3,7 +3,7 @@ import {ScrollView, StatusBar, View, Text, StyleSheet} from 'react-native';
 import Input from '../../components/input/index';
 import Btn from '../../components/button/index';
 
-const Change = () => {
+const Change = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
   return (
@@ -59,7 +59,12 @@ const Change = () => {
         </View>
       </View>
       <View style={styles.button}>
-        <Btn color="#5784BA" btnText="Create" fontColor="#FFF" />
+        <Btn
+          onPress={() => navigation.navigate('Success')}
+          color="#5784BA"
+          btnText="Create"
+          fontColor="#FFF"
+        />
       </View>
     </ScrollView>
   );

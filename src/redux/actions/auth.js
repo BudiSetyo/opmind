@@ -14,6 +14,10 @@ export const loginHandler = (user, password) => {
       })
       .catch(err => {
         console.log(err.result);
+        dispatch({
+          type: 'ERROR',
+          payload: err,
+        });
       });
   };
 };

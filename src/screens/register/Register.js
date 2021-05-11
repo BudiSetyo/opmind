@@ -6,11 +6,39 @@ import Input from '../../components/input/index';
 import Btn from '../../components/button/index';
 import BtnGoole from '../../components/button/google';
 
+import {URL_API} from '@env';
+import axios from 'axios';
+
 const Register = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [valPass, setValPass] = useState('');
+
+  const [success, setSuccess] = useState();
+
+  const onRegisterHandler = () => {
+    if (!username || !email || !password || !valPass) {
+      return setSuccess('Some fields cannot be empty');
+      // return console.log('Some fields cannot be empty');
+    }
+
+    if (password !== valPass) {
+      return setSuccess('Password does not match');
+      // return console.log('Password does not match');
+    }
+
+    axios
+      .post(`${URL_API}/auth/register`, {username, email, password})
+      .then(res => {
+        // console.log(res.data);
+        setSuccess(res.data.message);
+      })
+      .catch(err => {
+        // console.log(err.response);
+        setSuccess(err.response.data.message);
+      });
+  };
   return (
     <ScrollView style={{backgroundColor: '#E5E5E5'}}>
       <StatusBar
@@ -28,7 +56,11 @@ const Register = ({navigation}) => {
               placeholder="Username"
               type="text"
               value={username}
-              onChange={e => setUsername(e)}
+              onChange={e => {
+                setSuccess('');
+                setUsername(e);
+                return;
+              }}
             />
           </View>
 
@@ -37,7 +69,11 @@ const Register = ({navigation}) => {
               placeholder="Email"
               type="text"
               value={email}
-              onChange={e => setEmail(e)}
+              onChange={e => {
+                setSuccess('');
+                setEmail(e);
+                return;
+              }}
             />
           </View>
 
@@ -46,7 +82,11 @@ const Register = ({navigation}) => {
               placeholder="Password"
               type="password"
               value={password}
-              onChange={e => setPassword(e)}
+              onChange={e => {
+                setSuccess('');
+                setPassword(e);
+                return;
+              }}
             />
           </View>
 
@@ -63,7 +103,11 @@ const Register = ({navigation}) => {
               placeholder="Confirm Password"
               type="password"
               value={valPass}
-              onChange={e => setValPass(e)}
+              onChange={e => {
+                setSuccess('');
+                setValPass(e);
+                return;
+              }}
             />
           </View>
 
@@ -75,9 +119,17 @@ const Register = ({navigation}) => {
             <Text>Password does not match!</Text>
           )}
         </View>
+
+        <View>{success === '' ? <Text></Text> : <Text>{success}</Text>}</View>
+
         <View style={styles.btnGroup}>
           <View style={styles.btn}>
-            <Btn btnText="Register" color="#5784BA" fontColor="white" />
+            <Btn
+              onPress={onRegisterHandler}
+              btnText="Register"
+              color="#5784BA"
+              fontColor="white"
+            />
           </View>
 
           <View style={styles.btn}>

@@ -10,7 +10,7 @@ import {
 import Btn from '../../components/button/index';
 import Logo from '../../assets/images/reset/otp.svg';
 
-const Otp = () => {
+const Otp = ({navigation}) => {
   const [first, setFirst] = useState('');
   const [second, setSecond] = useState('');
   const [third, setThird] = useState('');
@@ -73,7 +73,12 @@ const Otp = () => {
           </Text>
         </View>
         <View style={styles.button}>
-          <Btn color="#5784BA" btnText="Verify" fontColor="#FFF" />
+          <Btn
+            onPress={() => navigation.navigate('Change')}
+            color="#5784BA"
+            btnText="Verify"
+            fontColor="#FFF"
+          />
         </View>
       </View>
     </ScrollView>

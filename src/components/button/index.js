@@ -19,10 +19,8 @@ const index = ({btnText, onPress, color, fontColor}) => {
   });
   return (
     <View>
-      <TouchableOpacity style={styles.btn}>
-        <Text onPress={onPress} style={styles.btnText}>
-          {btnText}
-        </Text>
+      <TouchableOpacity onPress={onPress} style={styles.btn}>
+        <Text style={styles.btnText}>{btnText}</Text>
       </TouchableOpacity>
     </View>
   );
