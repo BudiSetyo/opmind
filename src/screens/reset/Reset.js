@@ -1,4 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
+import {URL_API} from '@env';
+
 import {
   ScrollView,
   StatusBar,
@@ -7,13 +10,42 @@ import {
   Text,
   StyleSheet,
 } from 'react-native';
+
 import Input from '../../components/input/index';
 import Btn from '../../components/button/index';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Logo from '../../assets/images/reset/reset.svg';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Reset = ({navigation}) => {
   const [email, setEmail] = useState('');
+
+  const [message, setMessage] = useState('');
+
+  const storeEmail = async () => {
+    try {
+      return await AsyncStorage.setItem('email', email);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const resetHandler = () => {
+    axios
+      .post(`${URL_API}/auth/reset`, {email})
+      .then(res => {
+        setMessage(res.data.message);
+        return navigation.navigate('Otp');
+      })
+      .catch(err => {
+        console.log(err.response.data);
+      });
+  };
+
+  useEffect(() => {
+    storeEmail();
+  }, [email]);
+
   return (
     <ScrollView style={styles.container}>
       <StatusBar
@@ -53,7 +85,7 @@ const Reset = ({navigation}) => {
         </View>
         <View style={styles.button}>
           <Btn
-            onPress={() => navigation.navigate('Otp')}
+            onPress={resetHandler}
             color="#5784BA"
             btnText="Send"
             fontColor="#FFF"

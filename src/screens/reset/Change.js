@@ -1,4 +1,8 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {URL_API} from '@env';
+
 import {ScrollView, StatusBar, View, Text, StyleSheet} from 'react-native';
 import Input from '../../components/input/index';
 import Btn from '../../components/button/index';
@@ -6,6 +10,44 @@ import Btn from '../../components/button/index';
 const Change = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
+  const [otp, setOtp] = useState('');
+  const [email, setEmail] = useState('');
+
+  const getOtp = async () => {
+    try {
+      const otp = await AsyncStorage.getItem('otp');
+      setOtp(otp);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getEmail = async () => {
+    try {
+      const email = await AsyncStorage.getItem('email');
+      setEmail(email);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const changeHandler = () => {
+    axios
+      .post(`${URL_API}/auth/newPassword`, {otp, email, password})
+      .then(res => {
+        console.log(res.data);
+        navigation.navigate('Success');
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getOtp();
+    getEmail();
+  }, []);
+
   return (
     <ScrollView style={styles.container}>
       <StatusBar
@@ -60,7 +102,7 @@ const Change = ({navigation}) => {
       </View>
       <View style={styles.button}>
         <Btn
-          onPress={() => navigation.navigate('Success')}
+          onPress={changeHandler}
           color="#5784BA"
           btnText="Create"
           fontColor="#FFF"

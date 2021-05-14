@@ -1,4 +1,8 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import {URL_API} from '@env';
+
 import {
   ScrollView,
   StatusBar,
@@ -15,7 +19,46 @@ const Otp = ({navigation}) => {
   const [second, setSecond] = useState('');
   const [third, setThird] = useState('');
   const [fourth, setFourth] = useState('');
-  console.log(first, second, third, fourth);
+  // console.log(first, second, third, fourth);
+  const [email, setEmail] = useState('');
+
+  const otp = [first, second, third, fourth];
+  const otpAxios = otp.join('');
+
+  const getEmail = async () => {
+    try {
+      const value = await AsyncStorage.getItem('email');
+      setEmail(value);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const storeOtp = async () => {
+    try {
+      await AsyncStorage.setItem('otp', otpAxios);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const otpHandler = () => {
+    axios
+      .post(`${URL_API}/auth/otp`, {otp: otpAxios, email})
+      .then(res => {
+        console.log(res.data);
+        navigation.navigate('Change');
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getEmail();
+    storeOtp();
+  }, [first, second, third, fourth]);
+
   return (
     <ScrollView style={styles.container}>
       <StatusBar
@@ -74,7 +117,7 @@ const Otp = ({navigation}) => {
         </View>
         <View style={styles.button}>
           <Btn
-            onPress={() => navigation.navigate('Change')}
+            onPress={otpHandler}
             color="#5784BA"
             btnText="Verify"
             fontColor="#FFF"
