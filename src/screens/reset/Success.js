@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   ScrollView,
   StatusBar,
@@ -9,6 +9,27 @@ import {
 } from 'react-native';
 import Logo from '../../assets/images/reset/success.svg';
 const Change = ({navigation}) => {
+  const removeEmail = async () => {
+    try {
+      await AsyncStorage.removeItem('email');
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const removeOtp = async () => {
+    try {
+      await AsyncStorage.removeItem('otp');
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    removeEmail();
+    removeOtp();
+  }, []);
+
   return (
     <ScrollView style={styles.container}>
       <StatusBar

@@ -1,10 +1,18 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
-import {ScrollView, StatusBar, View, Text, StyleSheet} from 'react-native';
+import {
+  ScrollView,
+  StatusBar,
+  View,
+  KeyboardAvoidingView,
+  Text,
+  StyleSheet,
+} from 'react-native';
 
 import Input from '../../components/input/index';
 import Btn from '../../components/button/index';
 import BtnGoole from '../../components/button/google';
+import Modal from '../../components/modal/index';
 
 import {URL_API} from '@env';
 import axios from 'axios';
@@ -15,30 +23,32 @@ const Register = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [valPass, setValPass] = useState('');
 
-  const [success, setSuccess] = useState();
+  const [success, setSuccess] = useState('');
+  const [visible, setVisible] = useState(false);
 
   const onRegisterHandler = () => {
     if (!username || !email || !password || !valPass) {
+      setVisible(true);
       return setSuccess('Some fields cannot be empty');
-      // return console.log('Some fields cannot be empty');
     }
 
     if (password !== valPass) {
+      setVisible(true);
       return setSuccess('Password does not match');
-      // return console.log('Password does not match');
     }
 
     axios
       .post(`${URL_API}/auth/register`, {username, email, password})
       .then(res => {
-        // console.log(res.data);
-        setSuccess(res.data.message);
+        setVisible(true);
+        return setSuccess(res.data.message);
       })
       .catch(err => {
-        // console.log(err.response);
-        setSuccess(err.response.data.message);
+        setVisible(true);
+        return setSuccess(err.response.data.message);
       });
   };
+
   return (
     <ScrollView style={{backgroundColor: '#E5E5E5'}}>
       <StatusBar
@@ -57,7 +67,6 @@ const Register = ({navigation}) => {
               type="text"
               value={username}
               onChange={e => {
-                setSuccess('');
                 setUsername(e);
                 return;
               }}
@@ -70,7 +79,6 @@ const Register = ({navigation}) => {
               type="text"
               value={email}
               onChange={e => {
-                setSuccess('');
                 setEmail(e);
                 return;
               }}
@@ -83,7 +91,6 @@ const Register = ({navigation}) => {
               type="password"
               value={password}
               onChange={e => {
-                setSuccess('');
                 setPassword(e);
                 return;
               }}
@@ -104,7 +111,6 @@ const Register = ({navigation}) => {
               type="password"
               value={valPass}
               onChange={e => {
-                setSuccess('');
                 setValPass(e);
                 return;
               }}
@@ -120,7 +126,11 @@ const Register = ({navigation}) => {
           )}
         </View>
 
-        <View>{success === '' ? <Text></Text> : <Text>{success}</Text>}</View>
+        <Modal
+          visible={visible}
+          message={success}
+          onPress={() => setVisible(!visible)}
+        />
 
         <View style={styles.btnGroup}>
           <View style={styles.btn}>

@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import {URL_API} from '@env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
   ScrollView,
@@ -15,12 +16,12 @@ import Input from '../../components/input/index';
 import Btn from '../../components/button/index';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Logo from '../../assets/images/reset/reset.svg';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import Modal from '../../components/modal/index';
 
 const Reset = ({navigation}) => {
   const [email, setEmail] = useState('');
-
   const [message, setMessage] = useState('');
+  const [visible, setVisible] = useState(false);
 
   const storeEmail = async () => {
     try {
@@ -31,14 +32,20 @@ const Reset = ({navigation}) => {
   };
 
   const resetHandler = () => {
+    if (!email) {
+      setVisible(true);
+      return setMessage('Field is empty');
+    }
+
     axios
       .post(`${URL_API}/auth/reset`, {email})
       .then(res => {
-        setMessage(res.data.message);
         return navigation.navigate('Otp');
       })
       .catch(err => {
         console.log(err.response.data);
+        setVisible(true);
+        return setMessage(err.response.data.message);
       });
   };
 
@@ -92,6 +99,11 @@ const Reset = ({navigation}) => {
           />
         </View>
       </View>
+      <Modal
+        visible={visible}
+        message={message}
+        onPress={() => setVisible(!visible)}
+      />
     </ScrollView>
   );
 };

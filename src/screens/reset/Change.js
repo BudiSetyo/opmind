@@ -6,12 +6,15 @@ import {URL_API} from '@env';
 import {ScrollView, StatusBar, View, Text, StyleSheet} from 'react-native';
 import Input from '../../components/input/index';
 import Btn from '../../components/button/index';
+import Modal from '../../components/modal/index';
 
 const Change = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
   const [otp, setOtp] = useState('');
   const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [visible, setVisible] = useState(false);
 
   const getOtp = async () => {
     try {
@@ -32,14 +35,26 @@ const Change = ({navigation}) => {
   };
 
   const changeHandler = () => {
+    if (!password || !confirm) {
+      setVisible(true);
+      return setMessage('Some fields cannot be empty');
+    }
+
+    if (password !== confirm) {
+      setVisible(true);
+      return setMessage('Password does not match');
+    }
+
     axios
       .post(`${URL_API}/auth/newPassword`, {otp, email, password})
       .then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         navigation.navigate('Success');
       })
       .catch(err => {
         console.log(err);
+        setVisible(true);
+        return setMessage(err.response.data);
       });
   };
 
@@ -100,6 +115,13 @@ const Change = ({navigation}) => {
           )}
         </View>
       </View>
+
+      <Modal
+        visible={visible}
+        message={message}
+        onPress={() => setVisible(!visible)}
+      />
+
       <View style={styles.button}>
         <Btn
           onPress={changeHandler}

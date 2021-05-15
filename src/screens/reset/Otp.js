@@ -13,14 +13,16 @@ import {
 } from 'react-native';
 import Btn from '../../components/button/index';
 import Logo from '../../assets/images/reset/otp.svg';
+import Modal from '../../components/modal/index';
 
 const Otp = ({navigation}) => {
   const [first, setFirst] = useState('');
   const [second, setSecond] = useState('');
   const [third, setThird] = useState('');
   const [fourth, setFourth] = useState('');
-  // console.log(first, second, third, fourth);
   const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [visible, setVisible] = useState(false);
 
   const otp = [first, second, third, fourth];
   const otpAxios = otp.join('');
@@ -42,15 +44,37 @@ const Otp = ({navigation}) => {
     }
   };
 
+  const resendHandler = () => {
+    axios
+      .post(`${URL_API}/auth/reset`, {email})
+      .then(res => {
+        // console.log(res.data);
+        setVisible(true);
+        return setMessage(res.data.message);
+      })
+      .catch(err => {
+        // console.log(err.response.data);
+        setVisible(true);
+        return setMessage(err.response.data);
+      });
+  };
+
   const otpHandler = () => {
+    if (!first || !second || !third || !fourth) {
+      setVisible(true);
+      return setMessage('Invalid otp');
+    }
+
     axios
       .post(`${URL_API}/auth/otp`, {otp: otpAxios, email})
       .then(res => {
-        console.log(res.data);
-        navigation.navigate('Change');
+        // console.log(res.data);
+        return navigation.navigate('Change');
       })
       .catch(err => {
-        console.log(err);
+        console.log(err.response);
+        setVisible(true);
+        return setMessage(err.response.data.result);
       });
   };
 
@@ -109,10 +133,19 @@ const Otp = ({navigation}) => {
             onChangeText={e => setFourth(e)}
           />
         </View>
+
+        <Modal
+          visible={visible}
+          message={message}
+          onPress={() => setVisible(!visible)}
+        />
+
         <View style={styles.resend}>
           <Text style={{fontSize: 16, color: '#ADA9BB'}}>
             Didn’t receive a code?{' '}
-            <Text style={{color: '#5784BA'}}>Resend</Text>
+            <Text onPress={resendHandler} style={{color: '#5784BA'}}>
+              Resend
+            </Text>
           </Text>
         </View>
         <View style={styles.button}>
