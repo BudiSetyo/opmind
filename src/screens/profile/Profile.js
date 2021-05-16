@@ -5,7 +5,7 @@ const Profile = () => {
   return (
     <ScrollView>
       <View>
-        <Text></Text>
+        <Text>Profile</Text>
       </View>
     </ScrollView>
   );
