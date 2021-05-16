@@ -12,7 +12,7 @@ import Otp from './src/screens/reset/Otp';
 import Change from './src/screens/reset/Change';
 import Success from './src/screens/reset/Success';
 
-import HomeUser from './src/screens/home/User';
+import Home from './src/screens/home/user/User';
 import Activity from './src/screens/activity/User';
 import Chat from './src/screens/chats/Chat';
 import Profile from './src/screens/profile/Profile';
@@ -47,7 +47,7 @@ const HomeRoutes = () => {
         inactiveTintColor: '#ADA9BB',
         showLabel: false,
       }}>
-      <Tab.Screen name="Home" component={HomeUser} />
+      <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Activity" component={Activity} />
       <Tab.Screen name="Chat" component={Chat} />
       <Tab.Screen name="Profile" component={Profile} />

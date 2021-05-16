@@ -1,7 +1,7 @@
 import React from 'react';
 import {ScrollView, View, StyleSheet} from 'react-native';
 
-import Header from './Header';
+import Header from '../Header';
 import Carousel from './Carousel';
 import AllSchedule from './AllSchedule';
 

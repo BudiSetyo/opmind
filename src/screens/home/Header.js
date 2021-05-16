@@ -8,8 +8,8 @@ import {
   StyleSheet,
 } from 'react-native';
 
-import Notif from '../../assets/images/activity/notif.svg';
-import Search from '../../assets/images/activity/search.svg';
+import Notif from '../../../assets/images/activity/notif.svg';
+import Search from '../../../assets/images/activity/search.svg';
 
 const Header = () => {
   const [user, setUser] = useState('Emir');
