@@ -16,7 +16,7 @@ import Input from '../../components/input/index';
 import Btn from '../../components/button/index';
 import BtnGoole from '../../components/button/google';
 
-const Login = ({OnLoginHandler, navigation}) => {
+const Login = ({OnLoginHandler, navigation, authReducer}) => {
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
   return (
@@ -60,6 +60,9 @@ const Login = ({OnLoginHandler, navigation}) => {
               onPress={() => {
                 // console.warn('hallo');
                 OnLoginHandler(user, password);
+                if (authReducer.isLogin === true) {
+                  return navigation.navigate('Home');
+                }
               }}
               btnText="Login"
               color="#5784BA"
