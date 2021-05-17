@@ -13,7 +13,7 @@ import Change from './src/screens/reset/Change';
 import Success from './src/screens/reset/Success';
 
 import Home from './src/screens/home/user/User';
-import Activity from './src/screens/activity/User';
+import Activity from './src/screens/activity/user/User';
 import Chat from './src/screens/chats/Chat';
 import Profile from './src/screens/profile/Profile';
 

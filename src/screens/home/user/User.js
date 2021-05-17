@@ -3,10 +3,10 @@ import {ScrollView, View, StyleSheet} from 'react-native';
 
 import Header from '../Header';
 import Carousel from './Carousel';
-import AllSchedule from './AllSchedule';
+import Schedule from './Schedule';
 
-import FirstNews from '../../assets/images/home/carousel.png';
-import SecondNews from '../../assets/images/home/laptop.jpg';
+import FirstNews from '../../../assets/images/home/carousel.png';
+import SecondNews from '../../../assets/images/home/laptop.jpg';
 
 const User = () => {
   const newsData = [
@@ -28,7 +28,7 @@ const User = () => {
         <View style={{padding: 16}}>
           <Carousel data={newsData} />
         </View>
-        <AllSchedule />
+        <Schedule />
       </ScrollView>
     </View>
   );
