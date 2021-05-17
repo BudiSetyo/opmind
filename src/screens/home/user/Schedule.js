@@ -31,7 +31,7 @@ const Schedule = () => {
               <Text
                 style={{
                   ...styles.tabItem,
-                  color: tab === tabIndex ? '#ADA9BB' : '#5784BA',
+                  color: tab === tabIndex ? '#5784BA' : '#ADA9BB',
                 }}>
                 {tabName}
               </Text>

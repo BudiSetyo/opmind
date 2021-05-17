@@ -13,12 +13,23 @@ import Change from './src/screens/reset/Change';
 import Success from './src/screens/reset/Success';
 
 import Home from './src/screens/home/user/User';
-import Activity from './src/screens/activity/user/User';
 import Chat from './src/screens/chats/Chat';
 import Profile from './src/screens/profile/Profile';
 
+import Activity from './src/screens/activity/user/User';
+import UserCourse from './src/screens/activity/user/course/Course';
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
+const ActivityRoutes = () => {
+  return (
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="MainActivity" component={Activity} />
+      <Stack.Screen name="MyClass" component={UserCourse} />
+    </Stack.Navigator>
+  );
+};
 
 const HomeRoutes = () => {
   return (
@@ -48,7 +59,7 @@ const HomeRoutes = () => {
         showLabel: false,
       }}>
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Activity" component={Activity} />
+      <Tab.Screen name="Activity" component={ActivityRoutes} />
       <Tab.Screen name="Chat" component={Chat} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
@@ -59,7 +70,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Splash"
+        initialRouteName="Home"
         screenOptions={{headerShown: false}}>
         <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="Login" component={Login} />

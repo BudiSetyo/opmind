@@ -1,5 +1,12 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+} from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const Course = () => {
   const courseData = [
@@ -35,6 +42,38 @@ const Course = () => {
         <Text style={styles.textNewCourse}>New Class</Text>
       </View>
 
+      <View>
+        <View style={styles.searchContainer}>
+          <View style={styles.searchInput}>
+            <View style={{flex: 1}}>
+              <Icon name="search-outline" size={18} color="#ADA9A9" />
+            </View>
+            <View style={{flex: 10}}>
+              <TextInput placeholder="Quick Search" />
+            </View>
+          </View>
+          <View style={{flex: 2}}>
+            <TouchableOpacity style={styles.searchBtn}>
+              <Text style={{color: '#FFF'}}>Search</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.optionContainer}>
+          <TouchableOpacity style={styles.optionBtn}>
+            <Text style={{marginRight: 5}}>Category</Text>
+            <Icon name="chevron-down" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.optionBtn}>
+            <Text style={{marginRight: 5}}>Level</Text>
+            <Icon name="chevron-down" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.optionBtn}>
+            <Text style={{marginRight: 5}}>Price</Text>
+            <Icon name="chevron-down" />
+          </TouchableOpacity>
+        </View>
+      </View>
+
       <View style={styles.titleContainer}>
         <View style={{flex: 6}}>
           <Text style={styles.titleText}>Class Name</Text>
@@ -68,6 +107,13 @@ const Course = () => {
           </View>
         </View>
       ))}
+
+      <View style={styles.loadContainer}>
+        <TouchableOpacity style={styles.loadBtn}>
+          <Text style={styles.loadBtnText}>More</Text>
+          <Icon name="add-circle-outline" size={16} color="#FFF" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -90,10 +136,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 10,
     paddingVertical: 15,
+    marginBottom: 1,
     borderWidth: 1,
     borderColor: '#EEE',
     borderRadius: 5,
-    marginBottom: 1,
   },
   titleText: {
     fontSize: 16,
@@ -101,6 +147,7 @@ const styles = StyleSheet.create({
   },
   newCourse: {
     paddingHorizontal: 13,
+    marginBottom: 12,
   },
   textNewCourse: {
     fontSize: 20,
@@ -111,5 +158,55 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     paddingHorizontal: 5,
     borderRadius: 10,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+  },
+  searchInput: {
+    flex: 7,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 5,
+    borderWidth: 0.2,
+    borderColor: '#000',
+    borderTopLeftRadius: 5,
+  },
+  searchBtn: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#5784BA',
+    borderTopRightRadius: 5,
+  },
+  optionContainer: {
+    flexDirection: 'row',
+    paddingVertical: 7,
+    paddingHorizontal: 16,
+    backgroundColor: '#EEEEEE',
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+  },
+  optionBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: 5,
+  },
+  loadContainer: {
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  loadBtn: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    paddingVertical: 8,
+    paddingHorizontal: 15,
+    marginTop: 10,
+    backgroundColor: '#5784BA',
+    borderRadius: 5,
+  },
+  loadBtnText: {
+    color: '#FFF',
+    marginRight: 5,
+    fontSize: 16,
   },
 });
