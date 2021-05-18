@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const Course = () => {
+const Course = ({navigation}) => {
   const courseData = [
     {
       id: 1,
@@ -92,7 +92,7 @@ const Course = () => {
       {courseData.map(course => (
         <View key={course.id} style={styles.courseContainer}>
           <View style={{justifyContent: 'center', flex: 6}}>
-            <Text>{course.course}</Text>
+            <Text onPress={navigation}>{course.course}</Text>
           </View>
           <View style={{justifyContent: 'center', flex: 4}}>
             <Text>{course.level}</Text>
@@ -167,16 +167,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 5,
-    borderWidth: 0.2,
+    borderWidth: 0.5,
+    borderRightWidth: 0,
     borderColor: '#000',
     borderTopLeftRadius: 5,
+    borderBottomLeftRadius: 5,
   },
   searchBtn: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#5784BA',
+    borderWidth: 0.5,
+    borderLeftWidth: 0,
+    borderColor: '#000',
     borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
   },
   optionContainer: {
     flexDirection: 'row',

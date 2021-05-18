@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {View, TextInput, Text, StyleSheet} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const index = ({placeholder, type, onChange, value}) => {
   const [hide, setHide] = useState(true);
@@ -32,7 +32,7 @@ const index = ({placeholder, type, onChange, value}) => {
       <View style={styles.icon}>
         <Icon
           style={type === 'password' ? {display: 'flex'} : {display: 'none'}}
-          name={hide ? 'eye' : 'eye-slash'}
+          name={hide ? 'eye' : 'eye-off'}
           size={20}
           color="#010620"
           onPress={() => setHide(!hide)}

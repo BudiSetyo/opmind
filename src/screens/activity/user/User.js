@@ -12,7 +12,7 @@ const User = ({navigation}) => {
       <ScrollView style={styles.content}>
         <UserCourse navigation={() => navigation.navigate('MyClass')} />
         <View style={{margin: 6}} />
-        <Course />
+        <Course navigation={() => navigation.navigate('ClassDetail')} />
       </ScrollView>
     </View>
   );

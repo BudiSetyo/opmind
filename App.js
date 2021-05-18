@@ -26,7 +26,7 @@ const Tab = createBottomTabNavigator();
 const ActivityRoutes = () => {
   return (
     <Stack.Navigator
-      initialRouteName="ClassDetail"
+      initialRouteName="MainActivity"
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="MainActivity" component={Activity} />
       <Stack.Screen name="MyClass" component={UserCourse} />

@@ -36,7 +36,7 @@ const Course = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Header navigation={() => navigation.navigate('MainActivity')} />
+      <Header navigation={() => navigation.goBack()} />
       <ScrollView style={styles.content}>
         <View style={styles.titleContainer}>
           <View style={{flex: 6}}>
