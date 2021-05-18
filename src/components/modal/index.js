@@ -30,11 +30,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.4)',
+    backgroundColor: 'rgba(0,0,0,0.5)',
   },
   modalView: {
     width: '60%',
-    padding: 20,
+    padding: 10,
     backgroundColor: 'white',
     borderRadius: 10,
     shadowColor: '#000',
@@ -47,9 +47,13 @@ const styles = StyleSheet.create({
   textView: {
     alignItems: 'center',
     marginBottom: 10,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#ADA9BB',
+    borderRadius: 10,
   },
   message: {
-    fontSize: 18,
+    fontSize: 16,
     textAlign: 'center',
   },
 });

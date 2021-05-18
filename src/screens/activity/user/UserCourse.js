@@ -1,6 +1,8 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+
 import Icon from 'react-native-vector-icons/Ionicons';
+import CircleBar from 'react-native-progress-circle';
 
 const UserCourse = ({navigation}) => {
   const courseData = [
@@ -51,13 +53,27 @@ const UserCourse = ({navigation}) => {
             <Text>{course.course}</Text>
           </View>
           <View style={{...styles.courseItem, alignItems: 'center', flex: 3}}>
-            <Text>{course.progress}</Text>
+            <CircleBar
+              percent={Number(course.progress)}
+              radius={20}
+              borderWidth={3}
+              color="#5784BA"
+              shadowColor="#E6EDF6"
+              bgColor="#fff">
+              <Text
+                style={{
+                  fontSize: 12,
+                  color: '#5784BA',
+                }}>{`${course.progress}%`}</Text>
+            </CircleBar>
           </View>
           <View style={{...styles.courseItem, alignItems: 'center', flex: 3}}>
-            <Text>{course.score}</Text>
+            <Text style={{fontSize: 24, fontWeight: 'bold', color: '#51E72B'}}>
+              {course.score}
+            </Text>
           </View>
           <View style={{...styles.courseItem, alignItems: 'center', flex: 1}}>
-            <Icon name="ellipsis-vertical" size={12} color="#D2DEED" />
+            <Icon name="ellipsis-vertical" size={16} color="#D2DEED" />
           </View>
         </View>
       ))}

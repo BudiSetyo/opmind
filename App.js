@@ -18,15 +18,19 @@ import Profile from './src/screens/profile/Profile';
 
 import Activity from './src/screens/activity/user/User';
 import UserCourse from './src/screens/activity/user/course/Course';
+import DetailCourse from './src/screens/activity/user/details/Detail';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const ActivityRoutes = () => {
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
+    <Stack.Navigator
+      initialRouteName="ClassDetail"
+      screenOptions={{headerShown: false}}>
       <Stack.Screen name="MainActivity" component={Activity} />
       <Stack.Screen name="MyClass" component={UserCourse} />
+      <Stack.Screen name="ClassDetail" component={DetailCourse} />
     </Stack.Navigator>
   );
 };
