@@ -7,21 +7,26 @@ import {
   StyleSheet,
 } from 'react-native';
 
+// import {connect} from 'react-redux';
 // import {loginHandler} from '../../redux/actions/auth';
 
 import Header from './Header';
-// import {connect} from 'react-redux';
+import Account from './Account';
+import Settings from './Settings';
+import Help from './Help';
 
 const Profile = () => {
   return (
-    <ScrollView>
+    <View style={styles.container}>
       <Header />
-      <View style={styles.container}>
-        <TouchableOpacity>
-          <Text style={{color: '#FF1313', fontSize: 20}}>Logout</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+      <ScrollView style={styles.scrollContainer}>
+        <Account />
+        <View style={{paddingVertical: 5}} />
+        <Settings />
+        <View style={{paddingVertical: 5}} />
+        <Help />
+      </ScrollView>
+    </View>
   );
 };
 
@@ -36,6 +41,10 @@ export default Profile;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    flex: 1,
+    backgroundColor: '#FFF',
+  },
+  scrollContainer: {
+    backgroundColor: '#E6EDF6',
   },
 });
