@@ -22,12 +22,10 @@ const Help = () => {
 
         <TouchableOpacity style={styles.optionBtn}>
           <View style={{flex: 2}}>
-            <Icon name="arrow-back-circle" size={25} color="#FF1313" />
+            <Icon name="log-out" size={25} color="#FF1313" />
           </View>
           <View style={{flex: 7}}>
-            <Text style={{fontSize: 20, color: '#FF1313'}}>
-              Change Password
-            </Text>
+            <Text style={{fontSize: 20, color: '#FF1313'}}>Logout</Text>
           </View>
           <View style={{flex: 1, alignItems: 'center'}} />
         </TouchableOpacity>
