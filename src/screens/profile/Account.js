@@ -1,14 +1,19 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
+import Modal from '../../components/modal/index';
 
 const Account = () => {
+  const [visible, setVisible] = useState(false);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Account</Text>
       <View>
-        <TouchableOpacity style={styles.optionBtn}>
+        <TouchableOpacity
+          style={styles.optionBtn}
+          onPress={() => setVisible(true)}>
           <View style={{flex: 2}}>
             <Icon name="call" size={25} color="#3F4356" />
           </View>
@@ -33,6 +38,10 @@ const Account = () => {
             <Icon name="chevron-forward" size={25} color="#3F4356" />
           </View>
         </TouchableOpacity>
+
+        <Modal visible={visible} onPress={() => setVisible(!visible)}>
+          <Text>Modal</Text>
+        </Modal>
       </View>
     </View>
   );

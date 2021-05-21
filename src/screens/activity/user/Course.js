@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -6,35 +6,90 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
+import axios from 'axios';
+
 import Icon from 'react-native-vector-icons/Ionicons';
+import Modal from '../../../components/modal/index';
+
+import {URL_API} from '@env';
 
 const Course = ({navigation}) => {
-  const courseData = [
-    {
-      id: 1,
-      course: 'Know more Javascript',
-      level: 'Beginner',
-      pricing: 'Free',
-    },
-    {
-      id: 2,
-      course: 'HTML and CSS to code',
-      level: 'Intermediate',
-      pricing: '$10',
-    },
-    {
-      id: 3,
-      course: 'Indonesian war history',
-      level: 'Advance',
-      pricing: '$50',
-    },
-    {
-      id: 4,
-      course: 'Buddhism and Modern Psychology',
-      level: 'Beginner',
-      pricing: 'Free',
-    },
-  ];
+  const [data, setData] = useState([]);
+  const [page, setPage] = useState(0);
+  const [totalPage, setTotalPage] = useState(0);
+  const [search, setSearch] = useState('');
+
+  const [filter, setFilter] = useState('');
+  const [filterItem, setFilterItem] = useState('');
+
+  const [visible, setVisible] = useState(false);
+
+  console.log(filter);
+  console.log(filterItem);
+
+  const getData = () => {
+    axios
+      .get(`${URL_API}/course/?search=&category&level&pricing&sort`)
+      .then(res => {
+        setPage(res.data.info.page + 1);
+        setTotalPage(res.data.info.totalPage);
+        return setData(res.data.info.result);
+        // return console.log(data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  const getMoreData = () => {
+    axios
+      .get(
+        `${URL_API}/course/?search=%${search}%&${filter}=${filterItem}&page=${page}&limit=5`,
+      )
+      .then(res => {
+        console.log(res.data.info);
+        if (page > totalPage) {
+          setPage(2);
+        }
+        setPage(page + 1);
+        return setData([...data, ...res.data.info.result]);
+      })
+      .catch(err => {
+        return console.log(err);
+      });
+  };
+
+  const searchData = () => {
+    axios
+      .get(`${URL_API}/course/?search=%${search}%`)
+      .then(res => {
+        if (page > totalPage) {
+          setPage(2);
+        }
+        setTotalPage(res.data.info.totalPage);
+        return setData(res.data.info.result);
+      })
+      .catch(err => console.log(err));
+  };
+
+  const getFilterData = () => {
+    axios
+      .get(`${URL_API}/course/?search=${search}&${filter}=${filterItem}&sort`)
+      .then(res => {
+        console.log(res.data.info);
+        if (page > totalPage) {
+          setPage(2);
+        }
+        setTotalPage(res.data.info.totalPage);
+        setData(res.data.info.result);
+        return setVisible(!visible);
+      })
+      .catch(err => console.log(err));
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -49,30 +104,80 @@ const Course = ({navigation}) => {
               <Icon name="search-outline" size={18} color="#ADA9A9" />
             </View>
             <View style={{flex: 10}}>
-              <TextInput placeholder="Quick Search" />
+              <TextInput
+                placeholder="Quick Search"
+                value={search}
+                onChangeText={e => setSearch(e)}
+              />
             </View>
           </View>
           <View style={{flex: 2}}>
-            <TouchableOpacity style={styles.searchBtn}>
+            <TouchableOpacity style={styles.searchBtn} onPress={searchData}>
               <Text style={{color: '#FFF'}}>Search</Text>
             </TouchableOpacity>
           </View>
         </View>
         <View style={styles.optionContainer}>
-          <TouchableOpacity style={styles.optionBtn}>
-            <Text style={{marginRight: 5}}>Category</Text>
+          <TouchableOpacity
+            style={styles.optionBtn}
+            onPress={() => setVisible(true)}>
+            <Text style={{marginRight: 5}}>Filter</Text>
             <Icon name="chevron-down" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.optionBtn}>
-            <Text style={{marginRight: 5}}>Level</Text>
-            <Icon name="chevron-down" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.optionBtn}>
-            <Text style={{marginRight: 5}}>Price</Text>
+            <Text style={{marginRight: 5}}>Sort</Text>
             <Icon name="chevron-down" />
           </TouchableOpacity>
         </View>
       </View>
+
+      <Modal visible={visible} onPress={() => setVisible(!visible)}>
+        <View>
+          <Text>By Level :</Text>
+          <TouchableOpacity
+            onPress={() => {
+              setFilter('level');
+              setFilterItem('beginner');
+              return;
+            }}>
+            <Text>Beginner</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setFilter('level');
+              setFilterItem('intermediate');
+              return;
+            }}>
+            <Text>Intermiate</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setFilter('level');
+              setFilterItem('advance');
+              return;
+            }}>
+            <Text>Advance</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View>
+          <TouchableOpacity
+            onPress={() => {
+              setFilterItem('');
+              return;
+            }}>
+            <Text>Reset</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View>
+          <TouchableOpacity
+            style={{alignItems: 'center'}}
+            onPress={getFilterData}>
+            <Text>confirm</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
 
       <View style={styles.titleContainer}>
         <View style={{flex: 6}}>
@@ -89,16 +194,16 @@ const Course = ({navigation}) => {
         </View>
       </View>
 
-      {courseData.map(course => (
+      {data.map(course => (
         <View key={course.id} style={styles.courseContainer}>
           <View style={{justifyContent: 'center', flex: 6}}>
-            <Text onPress={navigation}>{course.course}</Text>
+            <Text onPress={navigation}>{course.className}</Text>
           </View>
           <View style={{justifyContent: 'center', flex: 4}}>
             <Text>{course.level}</Text>
           </View>
           <View style={{justifyContent: 'center', flex: 3}}>
-            <Text>{course.pricing}</Text>
+            <Text>{course.pricing === 0 ? 'Free' : `$${course.pricing}`}</Text>
           </View>
           <View style={{justifyContent: 'center', flex: 3}}>
             <TouchableOpacity style={styles.btnRegister}>
@@ -109,7 +214,12 @@ const Course = ({navigation}) => {
       ))}
 
       <View style={styles.loadContainer}>
-        <TouchableOpacity style={styles.loadBtn}>
+        <TouchableOpacity
+          onPress={getMoreData}
+          style={{
+            ...styles.loadBtn,
+            display: page > totalPage ? 'none' : 'flex',
+          }}>
           <Text style={styles.loadBtnText}>More</Text>
           <Icon name="add-circle-outline" size={16} color="#FFF" />
         </TouchableOpacity>

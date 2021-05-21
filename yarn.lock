@@ -5807,6 +5807,11 @@ react-native-codegen@^0.0.6:
     jscodeshift "^0.11.0"
     nullthrows "^1.1.1"
 
+react-native-document-picker@^5.0.4:
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/react-native-document-picker/-/react-native-document-picker-5.0.4.tgz#86a874e093284b21896581985b8b6e13e04a4251"
+  integrity sha512-PN3NYZFgz6McbcfH5Cu3yf3nE4UBAiJYdL26F5cjypOoCFhdfLz0NM13V/tVOLGhWZXNUmI3g4dhPQBthq+pJg==
+
 react-native-dotenv@^2.5.5:
   version "2.5.5"
   resolved "https://registry.yarnpkg.com/react-native-dotenv/-/react-native-dotenv-2.5.5.tgz#5450fe79859f8553e893129d9fccc855cd38ecd9"

@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     paddingVertical: 16,
     paddingHorizontal: 24,
-    minHeight: 320,
+    minHeight: 240,
   },
   title: {
     fontSize: 16,
