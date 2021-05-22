@@ -148,7 +148,7 @@ const Course = ({navigation}) => {
               setFilterItem('intermediate');
               return;
             }}>
-            <Text>Intermiate</Text>
+            <Text>Intermediate</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {

@@ -60,9 +60,6 @@ const Login = ({OnLoginHandler, navigation, authReducer}) => {
               onPress={() => {
                 // console.warn('hallo');
                 OnLoginHandler(user, password);
-                if (authReducer.isLogin === true) {
-                  return navigation.navigate('Home');
-                }
               }}
               btnText="Login"
               color="#5784BA"

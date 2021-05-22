@@ -21,3 +21,9 @@ export const loginHandler = (user, password) => {
       });
   };
 };
+
+export const logoutHandler = () => {
+  return dispatch => {
+    dispatch({type: 'LOGOUT'});
+  };
+};

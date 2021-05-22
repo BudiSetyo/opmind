@@ -2,6 +2,8 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {connect} from 'react-redux';
+
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import Splash from './src/screens/splash';
@@ -70,23 +72,43 @@ const HomeRoutes = () => {
   );
 };
 
-const App = () => {
+const AuthRoutes = () => {
+  return (
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="Splash" component={Splash} />
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Register" component={Register} />
+      <Stack.Screen name="Reset" component={Reset} />
+      <Stack.Screen name="Otp" component={Otp} />
+      <Stack.Screen name="Change" component={Change} />
+      <Stack.Screen name="Success" component={Success} />
+    </Stack.Navigator>
+  );
+};
+
+const App = props => {
+  const {isLogin} = props.authReducer;
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Home"
-        screenOptions={{headerShown: false}}>
-        <Stack.Screen name="Splash" component={Splash} />
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Register" component={Register} />
-        <Stack.Screen name="Reset" component={Reset} />
-        <Stack.Screen name="Otp" component={Otp} />
-        <Stack.Screen name="Change" component={Change} />
-        <Stack.Screen name="Success" component={Success} />
-        <Stack.Screen name="Home" component={HomeRoutes} />
+      <Stack.Navigator screenOptions={{headerShown: false}}>
+        {isLogin === true ? (
+          <>
+            <Stack.Screen name="Home" component={HomeRoutes} />
+          </>
+        ) : (
+          <Stack.Screen name="Login" component={AuthRoutes} />
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    authReducer: state.authReducer,
+  };
+};
+
+const ConnectApp = connect(mapStateToProps)(App);
+
+export default ConnectApp;

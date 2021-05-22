@@ -1,9 +1,14 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {connect} from 'react-redux';
+import {logoutHandler} from '../../redux/actions/auth';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const Help = () => {
+const Help = props => {
+  const onLogoutHandler = () => {
+    props.onLogoutHandler();
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Help</Text>
@@ -20,7 +25,7 @@ const Help = () => {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.optionBtn}>
+        <TouchableOpacity style={styles.optionBtn} onPress={onLogoutHandler}>
           <View style={{flex: 2}}>
             <Icon name="log-out" size={25} color="#FF1313" />
           </View>
@@ -34,7 +39,24 @@ const Help = () => {
   );
 };
 
-export default Help;
+const mapStateToProps = state => {
+  console.log(state.authReducer);
+  return {
+    authReducer: state.authReducer,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onLogoutHandler: () => {
+      dispatch(logoutHandler());
+    },
+  };
+};
+
+const ConnectHelp = connect(mapStateToProps, mapDispatchToProps)(Help);
+
+export default ConnectHelp;
 
 const styles = StyleSheet.create({
   container: {
