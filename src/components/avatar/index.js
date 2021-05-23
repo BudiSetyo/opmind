@@ -9,7 +9,9 @@ const index = ({image, size, letter}) => {
     image: Img,
   };
 
-  const firstletter = userData.userName[0].toUpperCase();
+  const capital = letter || 'u';
+
+  const firstletter = capital[0].toUpperCase();
   const randomColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
 
   const styles = StyleSheet.create({
@@ -24,15 +26,15 @@ const index = ({image, size, letter}) => {
     letter: {
       fontSize: 35,
       fontWeight: 'bold',
-      color: randomColor,
+      color: '#5784BA',
     },
   });
 
   return (
     <View style={styles.container}>
-      {userData.image ? (
+      {image.uri !== '' ? (
         <ImageBackground
-          source={userData.image}
+          source={image}
           imageStyle={{borderRadius: 50}}
           style={{flex: 1, height: '100%', width: '100%'}}
         />

@@ -10,15 +10,28 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import {loginHandler} from '../../redux/actions/auth';
+import {loginHandler, refreshHandler} from '../../redux/actions/auth';
 
 import Input from '../../components/input/index';
 import Btn from '../../components/button/index';
 import BtnGoole from '../../components/button/google';
+import Modal from '../../components/modal/index';
 
-const Login = ({OnLoginHandler, navigation, authReducer}) => {
+const Login = ({OnLoginHandler, OnRefreshHandler, navigation, authReducer}) => {
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
+  const [visible, setVisible] = useState(false);
+
+  const onLoginHandler = () => {
+    if (authReducer.isError) {
+      setMessage(authReducer.error.message);
+      setVisible(true);
+      return OnRefreshHandler();
+    }
+    return OnLoginHandler(user, password);
+  };
+
   return (
     <ScrollView style={{backgroundColor: '#E5E5E5'}}>
       <StatusBar
@@ -48,19 +61,18 @@ const Login = ({OnLoginHandler, navigation, authReducer}) => {
               onChange={e => setPassword(e)}
             />
           </View>
+
           <View style={styles.forgot}>
             <TouchableOpacity onPress={() => navigation.navigate('Reset')}>
               <Text>Forgot password?</Text>
             </TouchableOpacity>
           </View>
         </View>
+
         <View style={styles.btnGroup}>
           <View style={styles.btn}>
             <Btn
-              onPress={() => {
-                // console.warn('hallo');
-                OnLoginHandler(user, password);
-              }}
+              onPress={onLoginHandler}
               btnText="Login"
               color="#5784BA"
               fontColor="white"
@@ -70,6 +82,13 @@ const Login = ({OnLoginHandler, navigation, authReducer}) => {
             <BtnGoole btnText="Login with Google" />
           </View>
         </View>
+
+        <Modal
+          visible={visible}
+          message={message}
+          onPress={() => setVisible(!visible)}
+        />
+
         <View style={styles.footer}>
           <Text style={{color: '#ADA9BB', marginBottom: 10}}>
             New user?{' '}
@@ -96,6 +115,9 @@ const mapDispatchToProps = dispatch => {
   return {
     OnLoginHandler: (user, password) => {
       dispatch(loginHandler(user, password));
+    },
+    OnRefreshHandler: () => {
+      dispatch(refreshHandler());
     },
   };
 };

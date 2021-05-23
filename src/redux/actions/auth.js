@@ -6,17 +6,17 @@ export const loginHandler = (user, password) => {
     return axios
       .post(`${URL_API}/auth/login`, {user, password})
       .then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         dispatch({
           type: 'LOGIN',
           payload: res.data,
         });
       })
       .catch(err => {
-        console.log(err.result);
+        // console.log(err.response.data);
         dispatch({
           type: 'ERROR',
-          payload: err,
+          payload: err.response.data,
         });
       });
   };
@@ -25,5 +25,11 @@ export const loginHandler = (user, password) => {
 export const logoutHandler = () => {
   return dispatch => {
     dispatch({type: 'LOGOUT'});
+  };
+};
+
+export const refreshHandler = () => {
+  return dispatch => {
+    dispatch({type: 'REFRESH'});
   };
 };

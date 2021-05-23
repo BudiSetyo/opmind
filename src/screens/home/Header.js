@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StatusBar,
   View,
@@ -7,13 +7,22 @@ import {
   TextInput,
   StyleSheet,
 } from 'react-native';
+import {connect} from 'react-redux';
 
 import Notif from '../../assets/images/activity/notif.svg';
 import Search from '../../assets/images/activity/search.svg';
 
-const Header = () => {
-  const [user, setUser] = useState('Emir');
+const Header = ({authReducer}) => {
+  const [user, setUser] = useState('');
   const [search, setSeaarch] = useState('');
+
+  const getUsername = () => {
+    return setUser(authReducer.user?.data?.username);
+  };
+
+  useEffect(() => {
+    getUsername();
+  }, []);
 
   return (
     <View style={styles.headerContainer}>
@@ -48,7 +57,15 @@ const Header = () => {
   );
 };
 
-export default Header;
+const mapStateToProps = state => {
+  return {
+    authReducer: state.authReducer,
+  };
+};
+
+const ConnectHeader = connect(mapStateToProps)(Header);
+
+export default ConnectHeader;
 
 const styles = StyleSheet.create({
   headerContainer: {
