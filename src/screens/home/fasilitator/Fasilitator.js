@@ -8,7 +8,7 @@ import Schedule from './Schedule';
 import FirstNews from '../../../assets/images/home/carousel.png';
 import SecondNews from '../../../assets/images/home/laptop.jpg';
 
-const User = () => {
+const Fasilitator = () => {
   const newsData = [
     {
       id: 1,
@@ -24,7 +24,7 @@ const User = () => {
   return (
     <View style={styles.container}>
       <Header />
-      <ScrollView style={styles.content}>
+      <ScrollView scrollEnabled={true} style={styles.content}>
         <View style={{padding: 16}}>
           <Carousel data={newsData} />
         </View>
@@ -34,7 +34,7 @@ const User = () => {
   );
 };
 
-export default User;
+export default Fasilitator;
 
 const styles = StyleSheet.create({
   container: {

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "687486858591",
+    "project_id": "edu-push-notification",
+    "storage_bucket": "edu-push-notification.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:687486858591:android:d2b3a038b0a11dc5ea32ea",
+        "android_client_info": {
+          "package_name": "com.opmind"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "687486858591-6kjco6a65jjjips5cl695m73sj8dl323.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoynbmBvHan-tq2eybszwtrf2FgBuPUG8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "687486858591-6kjco6a65jjjips5cl695m73sj8dl323.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
