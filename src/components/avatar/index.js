@@ -22,6 +22,8 @@ const index = ({image, size, letter}) => {
       borderRadius: 50,
       alignItems: 'center',
       justifyContent: 'center',
+      borderWidth: 0.2,
+      borderColor: '#000',
     },
     letter: {
       fontSize: 35,

@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, Modal, TouchableOpacity, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const index = ({visible, onPress, message, children}) => {
+const index = ({visible, onPress, message, children, childrenBorder}) => {
   return (
     <View style={StyleSheet.centeredView}>
       <Modal animationType="slide" transparent={true} visible={visible}>
@@ -17,6 +17,7 @@ const index = ({visible, onPress, message, children}) => {
               style={{
                 ...styles.childrenView,
                 display: children ? 'flex' : 'none',
+                borderWidth: childrenBorder === true ? 1 : 0,
               }}>
               {children}
             </View>
