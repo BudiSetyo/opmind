@@ -6,6 +6,8 @@ import {connect, useSelector} from 'react-redux';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
+import Notification from './src/screens/notification/Notif';
+
 import Splash from './src/screens/splash';
 import Login from './src/screens/login/Login';
 import Register from './src/screens/register/Register';
@@ -19,19 +21,33 @@ import HomeFasilitator from './src/screens/home/fasilitator/Fasilitator';
 import Chat from './src/screens/chats/Chat';
 import Profile from './src/screens/profile/Profile';
 
-import Activity from './src/screens/activity/user/User';
+import ActivityUser from './src/screens/activity/user/User';
 import UserCourse from './src/screens/activity/user/course/Course';
 import DetailCourse from './src/screens/activity/user/details/Detail';
+
+import ActivityFasilitator from './src/screens/activity/fasilitator/Fasilitator';
+import DetailFasilitator from './src/screens/activity/fasilitator/details/Detail';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const ActivityRoutes = () => {
+const ActivityFasilitatorRoutes = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName="ClassDetail"
+      screenOptions={{headerShown: false}}>
+      <Stack.Screen name="MainActivity" component={ActivityFasilitator} />
+      <Stack.Screen name="ClassDetail" component={DetailFasilitator} />
+    </Stack.Navigator>
+  );
+};
+
+const ActivityUserRoutes = () => {
   return (
     <Stack.Navigator
       initialRouteName="MainActivity"
       screenOptions={{headerShown: false}}>
-      <Stack.Screen name="MainActivity" component={Activity} />
+      <Stack.Screen name="MainActivity" component={ActivityUser} />
       <Stack.Screen name="MyClass" component={UserCourse} />
       <Stack.Screen name="ClassDetail" component={DetailCourse} />
     </Stack.Navigator>
@@ -71,7 +87,10 @@ const HomeRoutes = () => {
         name="Home"
         component={role === 1 ? HomeUser : HomeFasilitator}
       />
-      <Tab.Screen name="Activity" component={ActivityRoutes} />
+      <Tab.Screen
+        name="Activity"
+        component={role === 1 ? ActivityUserRoutes : ActivityFasilitatorRoutes}
+      />
       <Tab.Screen name="Chat" component={Chat} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
@@ -80,7 +99,10 @@ const HomeRoutes = () => {
 
 const AuthRoutes = () => {
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
+    <Stack.Navigator
+      initialRouteName="Splash"
+      screenOptions={{headerShown: false}}>
+      <Stack.Screen name="Notification" component={Notification} />
       <Stack.Screen name="Splash" component={Splash} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />

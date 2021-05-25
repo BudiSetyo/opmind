@@ -1,24 +1,24 @@
 import React from 'react';
-import {View, ScrollView, StyleSheet} from 'react-native';
+import {View, Text, ScrollView, StyleSheet} from 'react-native';
 
 import Header from './Header';
-import Course from './Course';
-import UserCourse from './UserCourse';
+import FasilitatorCourse from './FasilitatorCourse';
+import AddCourse from './AddCourse';
 
-const User = ({navigation}) => {
+const Fasilitator = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Header />
       <ScrollView style={styles.content}>
-        <UserCourse navigation={() => navigation.navigate('MyClass')} />
+        <FasilitatorCourse />
         <View style={{margin: 6}} />
-        <Course navigation={() => navigation.navigate('ClassDetail')} />
+        <AddCourse />
       </ScrollView>
     </View>
   );
 };
 
-export default User;
+export default Fasilitator;
 
 const styles = StyleSheet.create({
   container: {

@@ -13,10 +13,16 @@ import {Bar} from 'react-native-progress';
 import Information from './Information';
 import Progress from './Progress';
 import Discussion from './Discussion';
+import Member from './Member';
 
 const Contents = () => {
   const [tab, setTab] = useState(0);
-  const tabList = ['Information', 'Class Progress', 'Class Disscussion'];
+  const tabList = [
+    'Information',
+    'Class Progress',
+    'Class Disscussion',
+    'Member',
+  ];
 
   const score = 76;
 
@@ -57,8 +63,10 @@ const Contents = () => {
           <Information />
         ) : tab === 1 ? (
           <Progress />
-        ) : (
+        ) : tab === 2 ? (
           <Discussion />
+        ) : (
+          <Member />
         )}
       </View>
     </View>
@@ -100,10 +108,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderBottomWidth: 0.4,
     borderColor: '#000',
+    justifyContent: 'space-between',
   },
   btnTab: {
     paddingVertical: 10,
-    marginRight: 20,
   },
   textTab: {
     fontSize: 14,
