@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
   wrapper: {
     flexDirection: 'row',
     padding: 5,
+    paddingBottom: 0,
     borderWidth: 1,
     borderColor: '#ADA9BB',
     borderRadius: 10,
@@ -59,6 +60,7 @@ const styles = StyleSheet.create({
   inputText: {
     fontSize: 20,
     color: '#010620',
+    paddingHorizontal: 0,
   },
   icon: {
     flex: 1,

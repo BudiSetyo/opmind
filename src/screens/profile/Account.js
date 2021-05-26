@@ -1,11 +1,85 @@
-import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {useSelector} from 'react-redux';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ToastAndroid,
+  StyleSheet,
+} from 'react-native';
+import axios from 'axios';
+import {URL_API} from '@env';
 
 import Icon from 'react-native-vector-icons/Ionicons';
-import Modal from '../../components/modal/index';
+import FormModal from '../../components/formModal/index';
+import Input from '../../components/input/index';
 
 const Account = () => {
-  const [visible, setVisible] = useState(false);
+  const [visiblePhone, setVisiblePhone] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [newPhoneNumber, setNewPhoneNumber] = useState('');
+
+  const [visiblePassword, setVisiblePassword] = useState(false);
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const authReducer = useSelector(state => state.authReducer);
+  const userId = authReducer.user.data?.id;
+
+  const showToast = message => {
+    return ToastAndroid.showWithGravity(
+      message,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+    );
+  };
+
+  const getPhoneNumber = () => {
+    axios
+      .get(`${URL_API}/profile/${userId}`)
+      .then(res => {
+        // console.log(res);
+        return setPhoneNumber(res.data.result[0].phone);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  const updatePhoneNumber = () => {
+    axios
+      .patch(`${URL_API}/profile/${userId}`, {phone_number: newPhoneNumber})
+      .then(res => {
+        // console.log('hello');
+        setNewPhoneNumber('');
+        getPhoneNumber();
+        return showToast('Success');
+      })
+      .catch(err => {
+        // console.log(err);
+        return showToast('Failed');
+      });
+  };
+
+  const updatePassword = () => {
+    axios
+      .patch(`${URL_API}/profile/pass/${userId}`, {password})
+      .then(res => {
+        console.log(res);
+        setPassword('');
+        setConfirmPassword('');
+        return showToast('Success');
+      })
+      .catch(err => {
+        // console.log(err);
+        return showToast('Failed');
+      });
+  };
+
+  useEffect(() => {
+    getPhoneNumber();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -13,7 +87,7 @@ const Account = () => {
       <View>
         <TouchableOpacity
           style={styles.optionBtn}
-          onPress={() => setVisible(true)}>
+          onPress={() => setVisiblePhone(true)}>
           <View style={{flex: 2}}>
             <Icon name="call" size={25} color="#3F4356" />
           </View>
@@ -25,7 +99,9 @@ const Account = () => {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.optionBtn}>
+        <TouchableOpacity
+          style={styles.optionBtn}
+          onPress={() => setVisiblePassword(true)}>
           <View style={{flex: 2}}>
             <Icon name="code-working" size={25} color="#3F4356" />
           </View>
@@ -39,9 +115,71 @@ const Account = () => {
           </View>
         </TouchableOpacity>
 
-        <Modal visible={visible} onPress={() => setVisible(!visible)}>
-          <Text>Modal</Text>
-        </Modal>
+        <FormModal
+          visible={visiblePhone}
+          onPress={() => setVisiblePhone(!visiblePhone)}>
+          <View>
+            <View style={styles.curentPhone}>
+              <Text
+                style={{fontSize: 14, fontWeight: 'bold', marginBottom: 10}}>
+                Curent phone number :{' '}
+              </Text>
+              <Text
+                style={{fontSize: 18, color: phoneNumber ? '#000' : '#ADA9A9'}}>
+                {phoneNumber ? phoneNumber : 'Empty'}
+              </Text>
+            </View>
+            <View>
+              <TextInput
+                style={styles.inputPhoneNumber}
+                placeholder="New phone number"
+                keyboardType="numeric"
+                value={newPhoneNumber}
+                onChangeText={e => setNewPhoneNumber(e)}
+              />
+
+              <View style={styles.phoneContainer}>
+                <TouchableOpacity
+                  style={styles.btnPhoneNumber}
+                  onPress={updatePhoneNumber}>
+                  <Text style={{color: '#FFF'}}>Confirm</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </FormModal>
+
+        <FormModal
+          visible={visiblePassword}
+          onPress={() => setVisiblePassword(!visiblePassword)}>
+          <View style={{padding: 20}}>
+            <View style={{marginBottom: 10}}>
+              <Input
+                type="password"
+                placeholder="New Password"
+                value={password}
+                onChange={e => setPassword(e)}
+              />
+            </View>
+
+            <View style={{marginBottom: 40}}>
+              <Input
+                type="password"
+                placeholder="Confirm Password"
+                value={confirmPassword}
+                onChange={e => setConfirmPassword(e)}
+              />
+            </View>
+
+            <View>
+              <TouchableOpacity
+                style={styles.btnPassword}
+                onPress={updatePassword}>
+                <Text style={{fontSize: 18, color: '#FFF'}}>Confirm</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </FormModal>
       </View>
     </View>
   );
@@ -65,5 +203,30 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginVertical: 5,
+  },
+  curentPhone: {
+    marginVertical: 15,
+  },
+  inputPhoneNumber: {
+    borderWidth: 0.4,
+    borderColor: '#000',
+    padding: 10,
+    borderRadius: 5,
+  },
+  phoneContainer: {
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  btnPhoneNumber: {
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    backgroundColor: '#5784BA',
+    borderRadius: 5,
+  },
+  btnPassword: {
+    alignItems: 'center',
+    backgroundColor: '#5784BA',
+    paddingVertical: 16,
+    borderRadius: 10,
   },
 });

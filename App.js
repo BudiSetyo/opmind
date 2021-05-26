@@ -26,6 +26,7 @@ import UserCourse from './src/screens/activity/user/course/Course';
 import DetailCourse from './src/screens/activity/user/details/Detail';
 
 import ActivityFasilitator from './src/screens/activity/fasilitator/Fasilitator';
+import FasilitatorCourse from './src/screens/activity/fasilitator/course/Course';
 import DetailFasilitator from './src/screens/activity/fasilitator/details/Detail';
 
 const Stack = createStackNavigator();
@@ -34,9 +35,10 @@ const Tab = createBottomTabNavigator();
 const ActivityFasilitatorRoutes = () => {
   return (
     <Stack.Navigator
-      initialRouteName="ClassDetail"
+      initialRouteName="MainActivity"
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="MainActivity" component={ActivityFasilitator} />
+      <Stack.Screen name="MyClass" component={FasilitatorCourse} />
       <Stack.Screen name="ClassDetail" component={DetailFasilitator} />
     </Stack.Navigator>
   );

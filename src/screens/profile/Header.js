@@ -4,6 +4,7 @@ import {
   Text,
   TouchableOpacity,
   StatusBar,
+  ToastAndroid,
   StyleSheet,
 } from 'react-native';
 import {connect} from 'react-redux';
@@ -22,6 +23,14 @@ const Header = ({authReducer}) => {
   const [image, setImage] = useState({uri: ''});
   const [visible, setVisible] = useState(false);
   const [singleUpload, setSingleUpload] = useState(null);
+
+  const showToast = message => {
+    return ToastAndroid.showWithGravity(
+      message,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+    );
+  };
 
   const choseFile = async () => {
     try {
@@ -74,10 +83,11 @@ const Header = ({authReducer}) => {
       axios
         .patch(`${URL_API}/profile/${id}`, data)
         .then(res => {
-          return console.log(res);
+          // console.log(res);
+          return showToast('Success');
         })
         .catch(err => {
-          return console.log(err);
+          return showToast('Failed');
         });
     }
   };
@@ -88,10 +98,9 @@ const Header = ({authReducer}) => {
 
   const getImage = () => {
     return axios
-      .get(`${URL_API}${authReducer.user.data.image}`)
+      .get(`${URL_API}/profile/${authReducer.user?.data?.id}`)
       .then(res => {
-        // console.log(res);
-        return setImage({uri: res.config.url});
+        return setImage({uri: `${URL_API}${res.data.result[0].image}`});
       })
       .catch(err => {
         return console.log(err);
@@ -101,7 +110,7 @@ const Header = ({authReducer}) => {
   useEffect(() => {
     getUsername();
     getImage();
-  }, []);
+  }, [image]);
 
   return (
     <View style={styles.container}>
@@ -130,7 +139,10 @@ const Header = ({authReducer}) => {
         </TouchableOpacity>
       </View>
 
-      <Modal visible={visible} onPress={() => setVisible(!visible)}>
+      <Modal
+        visible={visible}
+        childrenBorder={true}
+        onPress={() => setVisible(!visible)}>
         <View style={styles.containerOptionImg}>
           <TouchableOpacity style={styles.optionImgBtn} onPress={choseFile}>
             <Icon name="image" size={15} color="#000" />

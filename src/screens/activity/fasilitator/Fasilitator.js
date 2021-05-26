@@ -10,7 +10,7 @@ const Fasilitator = ({navigation}) => {
     <View style={styles.container}>
       <Header />
       <ScrollView style={styles.content}>
-        <FasilitatorCourse />
+        <FasilitatorCourse navigation={() => navigation.navigate('MyClass')} />
         <View style={{margin: 6}} />
         <AddCourse />
       </ScrollView>

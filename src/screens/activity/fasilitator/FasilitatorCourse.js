@@ -1,27 +1,32 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {useSelector} from 'react-redux';
+import axios from 'axios';
+import {URL_API} from '@env';
 
 import Icon from 'react-native-vector-icons/Ionicons';
-import CircleBar from 'react-native-progress-circle';
 
 const FasilitatorCourse = ({navigation}) => {
-  const courseData = [
-    {
-      id: 1,
-      course: 'Front-end fundamentals',
-      students: 25,
-    },
-    {
-      id: 2,
-      course: 'HTML for Beginners',
-      students: 27,
-    },
-    {
-      id: 3,
-      course: 'History of Europe',
-      students: 21,
-    },
-  ];
+  const [course, setCourse] = useState([]);
+
+  const authReducer = useSelector(state => state.authReducer);
+  const id = authReducer.user.data?.id;
+
+  const getCourse = () => {
+    axios
+      .get(`${URL_API}/course/fasilitatorCourse/${id}`)
+      .then(res => {
+        console.log(res);
+        return setCourse(res.data.info.result);
+      })
+      .catch(err => {
+        return console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getCourse();
+  }, []);
 
   return (
     <View>
@@ -41,10 +46,10 @@ const FasilitatorCourse = ({navigation}) => {
         <View style={{flex: 1}}></View>
       </View>
 
-      {courseData.map(course => (
-        <View key={course.id} style={styles.courseContainer}>
+      {course.map((course, index) => (
+        <View key={index} style={styles.courseContainer}>
           <View style={{...styles.courseItem, flex: 6}}>
-            <Text>{course.course}</Text>
+            <Text>{course.classname}</Text>
           </View>
           <View
             style={{

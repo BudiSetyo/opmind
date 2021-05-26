@@ -68,7 +68,6 @@ const styles = StyleSheet.create({
   childrenView: {
     marginBottom: 10,
     padding: 5,
-    borderWidth: 1,
     borderColor: '#ADA9BB',
     borderRadius: 10,
   },
