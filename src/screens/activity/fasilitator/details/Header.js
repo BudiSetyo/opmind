@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -6,10 +6,42 @@ import {
   StatusBar,
   StyleSheet,
 } from 'react-native';
+import axios from 'axios';
+import {URL_API} from '@env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const Header = ({navigation}) => {
-  const courseName = 'Know More Javascript';
+  const [id, setId] = useState(null);
+  const [courseName, setCourseName] = useState('');
+
+  const getId = async () => {
+    try {
+      const value = await AsyncStorage.getItem('idCourse');
+      // console.log(value);
+      return setId(Number(value));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getCourseData = () => {
+    axios
+      .get(`${URL_API}/course/${id}`)
+      .then(res => {
+        // console.log(res);
+        return setCourseName(res.data.result[0].classname);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getId();
+    getCourseData();
+  }, [id]);
 
   return (
     <View style={styles.container}>

@@ -6,6 +6,9 @@ import {
   ImageBackground,
   StyleSheet,
 } from 'react-native';
+import axios from 'axios';
+import {URL_API} from '@env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import CourseIcon from '../../../../assets/images/activity/course.png';
 import {Bar} from 'react-native-progress';

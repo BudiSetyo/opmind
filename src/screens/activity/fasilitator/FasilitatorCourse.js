@@ -3,14 +3,23 @@ import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {useSelector} from 'react-redux';
 import axios from 'axios';
 import {URL_API} from '@env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const FasilitatorCourse = ({navigation}) => {
+const FasilitatorCourse = ({navigation, navigate}) => {
   const [course, setCourse] = useState([]);
 
   const authReducer = useSelector(state => state.authReducer);
   const id = authReducer.user.data?.id;
+
+  const storeIdCourse = async value => {
+    try {
+      await AsyncStorage.setItem('idCourse', value);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const getCourse = () => {
     axios
@@ -49,7 +58,14 @@ const FasilitatorCourse = ({navigation}) => {
       {course.map((course, index) => (
         <View key={index} style={styles.courseContainer}>
           <View style={{...styles.courseItem, flex: 6}}>
-            <Text>{course.classname}</Text>
+            <Text
+              onPress={() => {
+                const idString = course.id.toString();
+                storeIdCourse(idString);
+                return navigate();
+              }}>
+              {course.classname}
+            </Text>
           </View>
           <View
             style={{

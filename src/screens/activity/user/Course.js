@@ -4,9 +4,12 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  ToastAndroid,
   StyleSheet,
 } from 'react-native';
 import axios from 'axios';
+import {useSelector} from 'react-redux';
+import NotifService from '../../../../NotifService';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from '../../../components/modal/index';
@@ -24,8 +27,18 @@ const Course = ({navigation}) => {
 
   const [visible, setVisible] = useState(false);
 
-  console.log(filter);
-  console.log(filterItem);
+  // console.log(filter);
+  // console.log(filterItem);
+  const authReducer = useSelector(state => state.authReducer);
+  const idUser = authReducer.user?.data?.id;
+
+  const showToast = message => {
+    return ToastAndroid.showWithGravity(
+      message,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+    );
+  };
 
   const getData = () => {
     axios
@@ -87,6 +100,22 @@ const Course = ({navigation}) => {
       .catch(err => console.log(err));
   };
 
+  const notif = new NotifService();
+
+  const registerCourse = idCourse => {
+    axios
+      .post(`${URL_API}/course/${idUser}/register?idClass=${idCourse}`)
+      .then(res => {
+        return notif.localNotif(
+          'Success registered class',
+          'Open your dashboard and check your schedule',
+        );
+      })
+      .catch(err => {
+        return showToast(err.response.data.message);
+      });
+  };
+
   useEffect(() => {
     getData();
   }, []);
@@ -133,8 +162,9 @@ const Course = ({navigation}) => {
 
       <Modal visible={visible} onPress={() => setVisible(!visible)}>
         <View>
-          <Text>By Level :</Text>
+          <Text style={{marginLeft: 40}}>By Level :</Text>
           <TouchableOpacity
+            style={styles.filterBtn}
             onPress={() => {
               setFilter('level');
               setFilterItem('beginner');
@@ -143,6 +173,7 @@ const Course = ({navigation}) => {
             <Text>Beginner</Text>
           </TouchableOpacity>
           <TouchableOpacity
+            style={styles.filterBtn}
             onPress={() => {
               setFilter('level');
               setFilterItem('intermediate');
@@ -151,6 +182,7 @@ const Course = ({navigation}) => {
             <Text>Intermediate</Text>
           </TouchableOpacity>
           <TouchableOpacity
+            style={styles.filterBtn}
             onPress={() => {
               setFilter('level');
               setFilterItem('advance');
@@ -162,6 +194,7 @@ const Course = ({navigation}) => {
 
         <View>
           <TouchableOpacity
+            style={styles.filterBtn}
             onPress={() => {
               setFilterItem('');
               return;
@@ -172,9 +205,9 @@ const Course = ({navigation}) => {
 
         <View>
           <TouchableOpacity
-            style={{alignItems: 'center'}}
+            style={styles.confirmFilterBtn}
             onPress={getFilterData}>
-            <Text>confirm</Text>
+            <Text style={{color: '#FFF'}}>confirm</Text>
           </TouchableOpacity>
         </View>
       </Modal>
@@ -206,7 +239,9 @@ const Course = ({navigation}) => {
             <Text>{course.pricing === 0 ? 'Free' : `$${course.pricing}`}</Text>
           </View>
           <View style={{justifyContent: 'center', flex: 3}}>
-            <TouchableOpacity style={styles.btnRegister}>
+            <TouchableOpacity
+              style={styles.btnRegister}
+              onPress={() => registerCourse(course.id)}>
               <Text style={{color: '#FFF'}}>Register</Text>
             </TouchableOpacity>
           </View>
@@ -324,5 +359,22 @@ const styles = StyleSheet.create({
     color: '#FFF',
     marginRight: 5,
     fontSize: 16,
+  },
+  filterBtn: {
+    padding: 5,
+    marginVertical: 5,
+    marginHorizontal: 40,
+    borderWidth: 1,
+    borderColor: '#000',
+    alignItems: 'center',
+    borderRadius: 10,
+  },
+  confirmFilterBtn: {
+    padding: 5,
+    marginTop: 20,
+    marginHorizontal: 40,
+    alignItems: 'center',
+    borderRadius: 10,
+    backgroundColor: '#5784BA',
   },
 });

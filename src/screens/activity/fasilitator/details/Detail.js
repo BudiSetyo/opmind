@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,9 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
+import axios from 'axios';
+import {URL_API} from '@env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Background from '../../../../assets/images/activity/background.png';
 
@@ -14,13 +17,45 @@ import Header from './Header';
 import Content from './Contents';
 
 const Detail = ({navigation}) => {
-  const courseData = {
+  const [id, setId] = useState(null);
+  const [course, setCourse] = useState({});
+
+  console.log(course);
+
+  const courseDataDum = {
     course: 'Know More Javascript',
     level: 'Beginner',
     category: 'Software',
-    price: 'Free',
+    pricing: '50',
     score: '',
   };
+
+  const getId = async () => {
+    try {
+      const value = await AsyncStorage.getItem('idCourse');
+      // console.log(value);
+      return setId(Number(value));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getCourseData = () => {
+    axios
+      .get(`${URL_API}/course/${id}`)
+      .then(res => {
+        // console.log(res.data.result[0]);
+        return setCourse(res.data.result[0]);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getId();
+    getCourseData();
+  }, [id, course]);
 
   return (
     <View style={styles.container}>
@@ -29,35 +64,36 @@ const Detail = ({navigation}) => {
         <View style={styles.bannerContainer}>
           <ImageBackground source={Background} style={{flex: 1}}>
             <View style={styles.bannerContent}>
-              <View style={styles.topContent}>
-                {courseData.score ? (
+              <View style={{...styles.topContent}}>
+                {courseDataDum.score ? (
                   <Text
                     style={{
                       fontSize: 28,
                       fontWeight: 'bold',
                       color: '#51E72B',
+                      display: 'none',
                     }}>
-                    {courseData.score}
+                    {courseDataDum.score}
                   </Text>
                 ) : (
-                  <TouchableOpacity style={styles.btnContent}>
+                  <TouchableOpacity
+                    style={{...styles.btnContent, display: 'none'}}>
                     <Text style={{color: '#FFF'}}>Register</Text>
                   </TouchableOpacity>
                 )}
               </View>
 
               <View style={styles.botContent}>
-                <Text style={styles.titleContent}>{courseData.course}</Text>
+                <Text style={styles.titleContent}>{course?.classname}</Text>
 
                 <View style={styles.dataContainer}>
+                  <Text style={styles.textData}>Level : {course?.level}</Text>
                   <Text style={styles.textData}>
-                    Level : {courseData.level}
+                    Category : {course?.category}
                   </Text>
                   <Text style={styles.textData}>
-                    Category : {courseData.category}
-                  </Text>
-                  <Text style={styles.textData}>
-                    Price : {courseData.price}
+                    Price :{' '}
+                    {course?.pricing === 0 ? 'Free' : `$${course?.pricing}`}
                   </Text>
                 </View>
               </View>
