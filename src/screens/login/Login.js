@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {connect} from 'react-redux';
 
 import {
@@ -6,28 +6,36 @@ import {
   StatusBar,
   View,
   Text,
+  ToastAndroid,
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
 
 import {loginHandler, refreshHandler} from '../../redux/actions/auth';
+import {validateUser, validatePassword} from '../../validation/index';
 
 import Input from '../../components/input/index';
 import Btn from '../../components/button/index';
 import BtnGoole from '../../components/button/google';
-import Modal from '../../components/modal/index';
 
-const Login = ({OnLoginHandler, OnRefreshHandler, navigation, authReducer}) => {
+const Login = ({OnLoginHandler, navigation}) => {
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
-  const [visible, setVisible] = useState(false);
+
+  const showToast = message => {
+    ToastAndroid.showWithGravity(
+      message,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+    );
+  };
 
   const onLoginHandler = () => {
-    if (authReducer.isError) {
-      setMessage(authReducer.error.message);
-      setVisible(true);
-      return OnRefreshHandler();
+    if (!validateUser(user)) {
+      return showToast('Username or email must be more than four characters');
+    }
+    if (!validatePassword(password)) {
+      return showToast('Password must be more than eight characters');
     }
     return OnLoginHandler(user, password);
   };
@@ -83,12 +91,6 @@ const Login = ({OnLoginHandler, OnRefreshHandler, navigation, authReducer}) => {
           </View>
         </View>
 
-        <Modal
-          visible={visible}
-          message={message}
-          onPress={() => setVisible(!visible)}
-        />
-
         <View style={styles.footer}>
           <Text style={{color: '#ADA9BB', marginBottom: 10}}>
             New user?{' '}
@@ -105,7 +107,6 @@ const Login = ({OnLoginHandler, OnRefreshHandler, navigation, authReducer}) => {
 };
 
 const mapStateToProps = state => {
-  // console.log(state.authReducer);
   return {
     authReducer: state.authReducer,
   };

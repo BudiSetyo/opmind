@@ -32,7 +32,7 @@ const Header = ({authReducer}) => {
         backgroundColor="#5784BA"
       />
       <View style={styles.greeting}>
-        <Text style={styles.greetingText}>Wellcome back,</Text>
+        <Text style={styles.greetingText}>Welcome back,</Text>
         <TouchableOpacity>
           <Notif />
         </TouchableOpacity>
