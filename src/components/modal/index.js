@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 const index = ({visible, onPress, message, children, childrenBorder}) => {
   return (
-    <View style={StyleSheet.centeredView}>
+    <View style={styles.centeredView}>
       <Modal animationType="slide" transparent={true} visible={visible}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>

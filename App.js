@@ -6,7 +6,7 @@ import {connect, useSelector} from 'react-redux';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import Notification from './src/screens/notification/Notif';
+// import Notification from './src/screens/notification/Notif';
 
 import Splash from './src/screens/splash';
 import Login from './src/screens/login/Login';
@@ -18,7 +18,6 @@ import Success from './src/screens/reset/Success';
 
 import HomeUser from './src/screens/home/user/User';
 import HomeFasilitator from './src/screens/home/fasilitator/Fasilitator';
-import Chat from './src/screens/chats/Chat';
 import Profile from './src/screens/profile/Profile';
 
 import ActivityUser from './src/screens/activity/user/User';
@@ -29,8 +28,20 @@ import ActivityFasilitator from './src/screens/activity/fasilitator/Fasilitator'
 import FasilitatorCourse from './src/screens/activity/fasilitator/course/Course';
 import DetailFasilitator from './src/screens/activity/fasilitator/details/Detail';
 
+import Chat from './src/screens/chats/Chat';
+import Single from './src/screens/chats/single/Single';
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
+const ChatRoutes = () => {
+  return (
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="Chat" component={Chat} />
+      <Stack.Screen name="Single" component={Single} />
+    </Stack.Navigator>
+  );
+};
 
 const ActivityFasilitatorRoutes = () => {
   return (
@@ -93,7 +104,7 @@ const HomeRoutes = () => {
         name="Activity"
         component={role === 1 ? ActivityUserRoutes : ActivityFasilitatorRoutes}
       />
-      <Tab.Screen name="Chat" component={Chat} />
+      <Tab.Screen name="Chat" component={ChatRoutes} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   );
@@ -101,10 +112,7 @@ const HomeRoutes = () => {
 
 const AuthRoutes = () => {
   return (
-    <Stack.Navigator
-      initialRouteName="Splash"
-      screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Notification" component={Notification} />
+    <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="Splash" component={Splash} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />

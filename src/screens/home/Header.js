@@ -10,7 +10,7 @@ import {
 import {connect} from 'react-redux';
 
 import Notif from '../../assets/images/activity/notif.svg';
-import Search from '../../assets/images/activity/search.svg';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const Header = ({authReducer}) => {
   const [user, setUser] = useState('');
@@ -42,7 +42,7 @@ const Header = ({authReducer}) => {
       </View>
       <View style={styles.search}>
         <TouchableOpacity style={styles.searchIcon}>
-          <Search />
+          <Icon name="search" size={20} color="rgba(1, 6, 32, 0.5)" />
         </TouchableOpacity>
         <View style={{flex: 3}}>
           <TextInput

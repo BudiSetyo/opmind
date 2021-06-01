@@ -1,14 +1,7 @@
 import React from 'react';
 import {View, Text, ImageBackground, StyleSheet} from 'react-native';
 
-import Img from '../../assets/images/profile.png';
-
 const index = ({image, size, letter}) => {
-  const userData = {
-    userName: 'bambang',
-    image: Img,
-  };
-
   const capital = letter || 'u';
 
   const firstletter = capital[0].toUpperCase();
