@@ -30,6 +30,8 @@ import DetailFasilitator from './src/screens/activity/fasilitator/details/Detail
 
 import Chat from './src/screens/chats/Chat';
 import Single from './src/screens/chats/single/Single';
+import Group from './src/screens/chats/group/Group';
+import DetailGroup from './src/screens/chats/group/detail/detail'
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -39,6 +41,8 @@ const ChatRoutes = () => {
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="Chat" component={Chat} />
       <Stack.Screen name="Single" component={Single} />
+      <Stack.Screen name="Group" component={Group} />
+      <Stack.Screen name="Detail" component={DetailGroup} />
     </Stack.Navigator>
   );
 };

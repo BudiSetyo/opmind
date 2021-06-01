@@ -13,7 +13,14 @@ const Chats = ({navigation}) => {
       <Header
         visible={visible}
         onPress={() => setVisible(!visible)}
-        single={() => navigation.navigate('Single')}
+        single={() => {
+          setVisible(!visible);
+          return navigation.navigate('Single');
+        }}
+        group={() => {
+          setVisible(!visible);
+          return navigation.navigate('Group');
+        }}
       />
       <View>
         <ScrollView style={styles.container}>

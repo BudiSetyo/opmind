@@ -10,8 +10,6 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const Header = ({back, create}) => {
-  const [search, setSearch] = useState('');
-
   return (
     <View style={styles.container}>
       <View style={styles.createChat}>
@@ -19,26 +17,12 @@ const Header = ({back, create}) => {
           <TouchableOpacity onPress={back}>
             <Icon name="chevron-back" size={26} color="#FFF" />
           </TouchableOpacity>
-          <Text style={styles.titleText}>Choose friends</Text>
+          <Text style={styles.titleText}>Group details</Text>
         </View>
 
         <TouchableOpacity onPress={create}>
           <Text style={styles.titleCreate}>Create</Text>
         </TouchableOpacity>
-      </View>
-
-      <View style={{...styles.search}}>
-        <TouchableOpacity style={{marginRight: 10}}>
-          <Icon name="search" size={20} color="rgba(1, 6, 32, 0.5)" />
-        </TouchableOpacity>
-        <View style={{flex: 3}}>
-          <TextInput
-            value={search}
-            onChangeText={e => setSearch(e)}
-            fontSize={16}
-            placeholder="Search"
-          />
-        </View>
       </View>
     </View>
   );
@@ -70,13 +54,5 @@ const styles = StyleSheet.create({
   titleCreate: {
     fontSize: 20,
     color: '#FFF',
-  },
-  search: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 10,
-    marginTop: 33,
-    backgroundColor: '#E5E6EB',
-    borderRadius: 15,
   },
 });

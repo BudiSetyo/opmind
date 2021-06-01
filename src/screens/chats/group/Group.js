@@ -4,10 +4,13 @@ import {View, Text, ScrollView, StyleSheet} from 'react-native';
 import Header from './Header';
 import Content from './Content';
 
-const Single = ({navigation}) => {
+const Group = ({navigation}) => {
   return (
     <View>
-      <Header back={() => navigation.goBack()} />
+      <Header
+        back={() => navigation.goBack()}
+        next={() => navigation.navigate('Detail')}
+      />
       <ScrollView style={styles.container}>
         <Content />
       </ScrollView>
@@ -15,7 +18,7 @@ const Single = ({navigation}) => {
   );
 };
 
-export default Single;
+export default Group;
 
 const styles = StyleSheet.create({
   container: {

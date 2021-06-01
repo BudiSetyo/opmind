@@ -9,7 +9,7 @@ import {
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const Header = ({back, create}) => {
+const Header = ({back, next}) => {
   const [search, setSearch] = useState('');
 
   return (
@@ -22,8 +22,8 @@ const Header = ({back, create}) => {
           <Text style={styles.titleText}>Choose friends</Text>
         </View>
 
-        <TouchableOpacity onPress={create}>
-          <Text style={styles.titleCreate}>Create</Text>
+        <TouchableOpacity onPress={next}>
+          <Text style={styles.titleCreate}>Next</Text>
         </TouchableOpacity>
       </View>
 
