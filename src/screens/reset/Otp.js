@@ -60,7 +60,7 @@ const Otp = ({navigation}) => {
   };
 
   const otpHandler = () => {
-    if (!first || !second || !third || !fourth) {
+    if (otpAxios.lengt < 4) {
       setVisible(true);
       return setMessage('Invalid otp');
     }

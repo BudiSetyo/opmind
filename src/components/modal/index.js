@@ -2,12 +2,12 @@ import React from 'react';
 import {View, Text, Modal, TouchableOpacity, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const index = ({visible, onPress, message, children, childrenBorder}) => {
+const index = ({visible, onPress, message, children, childrenBorder, size}) => {
   return (
     <View style={styles.centeredView}>
       <Modal animationType="slide" transparent={true} visible={visible}>
         <View style={styles.centeredView}>
-          <View style={styles.modalView}>
+          <View style={{...styles.modalView, width: size ? size : '70%'}}>
             <View style={styles.btnView}>
               <TouchableOpacity onPress={onPress}>
                 <Icon name="times-circle" color="#FF1313" size={20} />
@@ -42,7 +42,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   modalView: {
-    width: '70%',
     padding: 10,
     backgroundColor: 'white',
     borderRadius: 10,

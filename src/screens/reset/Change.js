@@ -8,6 +8,7 @@ import Input from '../../components/input/index';
 import Btn from '../../components/button/index';
 import Modal from '../../components/modal/index';
 
+import {validatePassword} from '../../validation';
 const Change = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
@@ -38,6 +39,11 @@ const Change = ({navigation}) => {
     if (!password || !confirm) {
       setVisible(true);
       return setMessage('Some fields cannot be empty');
+    }
+
+    if (!validatePassword(password)) {
+      setVisible(true);
+      return setMessage('Password must be more than 8 characters');
     }
 
     if (password !== confirm) {

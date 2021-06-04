@@ -26,9 +26,10 @@ const Course = ({navigation}) => {
   const [filterItem, setFilterItem] = useState('');
 
   const [visible, setVisible] = useState(false);
+  const [tabLevel, setTabLevel] = useState(0);
 
-  // console.log(filter);
-  // console.log(filterItem);
+  console.log(filter);
+  console.log(filterItem);
   const authReducer = useSelector(state => state.authReducer);
   const idUser = authReducer.user?.data?.id;
 
@@ -120,6 +121,8 @@ const Course = ({navigation}) => {
     getData();
   }, []);
 
+  const filterByLevel = ['', 'Beginner', 'Intermediate', 'Advance'];
+
   return (
     <View style={styles.container}>
       <View style={styles.newCourse}>
@@ -163,7 +166,43 @@ const Course = ({navigation}) => {
       <Modal visible={visible} onPress={() => setVisible(!visible)}>
         <View>
           <Text style={{marginLeft: 40}}>By Level :</Text>
-          <TouchableOpacity
+
+          {filterByLevel.map((level, index) => (
+            <View key={index}>
+              <TouchableOpacity
+                key={index}
+                style={{
+                  ...styles.filterBtn,
+                  display: index === 0 ? 'none' : 'flex',
+                  backgroundColor:
+                    tabLevel === index ? '#5784BA' : 'transparent',
+                  borderColor: tabLevel === index ? '#5784BA' : '#000',
+                }}
+                onPress={() => {
+                  setTabLevel(index);
+                  switch (level) {
+                    case 'Beginner':
+                      setFilter('level');
+                      setFilterItem('beginner');
+                      return;
+                    case 'Intermediate':
+                      setFilter('level');
+                      setFilterItem('intermediate');
+                      return;
+                    case 'Advance':
+                      setFilter('level');
+                      setFilterItem('advance');
+                      return;
+                  }
+                }}>
+                <Text style={{color: tabLevel === index ? '#FFF' : '#000'}}>
+                  {level}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          ))}
+
+          {/* <TouchableOpacity
             style={styles.filterBtn}
             onPress={() => {
               setFilter('level');
@@ -189,13 +228,14 @@ const Course = ({navigation}) => {
               return;
             }}>
             <Text>Advance</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
 
         <View>
           <TouchableOpacity
-            style={styles.filterBtn}
+            style={{...styles.filterBtn, marginTop: 20}}
             onPress={() => {
+              setTabLevel(0);
               setFilterItem('');
               return;
             }}>
@@ -371,7 +411,6 @@ const styles = StyleSheet.create({
   },
   confirmFilterBtn: {
     padding: 5,
-    marginTop: 20,
     marginHorizontal: 40,
     alignItems: 'center',
     borderRadius: 10,

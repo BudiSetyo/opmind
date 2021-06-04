@@ -12,8 +12,10 @@ import axios from 'axios';
 import {URL_API} from '@env';
 
 import Icon from 'react-native-vector-icons/Ionicons';
-import FormModal from '../../components/formModal/index';
+import Modal from '../../components/modal/index';
 import Input from '../../components/input/index';
+
+import {validatePassword} from '../../validation/index';
 
 const Account = () => {
   const [visiblePhone, setVisiblePhone] = useState(false);
@@ -21,6 +23,7 @@ const Account = () => {
   const [newPhoneNumber, setNewPhoneNumber] = useState('');
 
   const [visiblePassword, setVisiblePassword] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -63,10 +66,22 @@ const Account = () => {
   };
 
   const updatePassword = () => {
+    if (!password || !confirmPassword) {
+      return showToast('Some fields cannot be empty ');
+    }
+
+    if (!validatePassword(password)) {
+      return showToast('Password must be more than 8 characters');
+    }
+
+    if (password !== confirmPassword) {
+      return showToast('Password does not match');
+    }
+
     axios
       .patch(`${URL_API}/profile/pass/${userId}`, {password})
       .then(res => {
-        console.log(res);
+        // console.log(res);
         setPassword('');
         setConfirmPassword('');
         return showToast('Success');
@@ -115,13 +130,14 @@ const Account = () => {
           </View>
         </TouchableOpacity>
 
-        <FormModal
+        <Modal
           visible={visiblePhone}
-          onPress={() => setVisiblePhone(!visiblePhone)}>
+          onPress={() => setVisiblePhone(!visiblePhone)}
+          size="90%">
           <View>
             <View style={styles.curentPhone}>
               <Text
-                style={{fontSize: 14, fontWeight: 'bold', marginBottom: 10}}>
+                style={{fontSize: 16, fontWeight: 'bold', marginBottom: 10}}>
                 Curent phone number :{' '}
               </Text>
               <Text
@@ -147,12 +163,22 @@ const Account = () => {
               </View>
             </View>
           </View>
-        </FormModal>
+        </Modal>
 
-        <FormModal
+        <Modal
           visible={visiblePassword}
-          onPress={() => setVisiblePassword(!visiblePassword)}>
+          onPress={() => setVisiblePassword(!visiblePassword)}
+          size="90%">
           <View style={{padding: 20}}>
+            <View style={{marginBottom: 10}}>
+              <Input
+                type="password"
+                placeholder="Current Password"
+                value={currentPassword}
+                onChange={e => setCurrentPassword(e)}
+              />
+            </View>
+
             <View style={{marginBottom: 10}}>
               <Input
                 type="password"
@@ -179,7 +205,7 @@ const Account = () => {
               </TouchableOpacity>
             </View>
           </View>
-        </FormModal>
+        </Modal>
       </View>
     </View>
   );

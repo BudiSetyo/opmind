@@ -1,11 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {connect} from 'react-redux';
 import {logoutHandler} from '../../redux/actions/auth';
 
 import Icon from 'react-native-vector-icons/Ionicons';
+import Modal from '../../components/modal/index';
 
 const Help = props => {
+  const [visible, setVisible] = useState(false);
+
   const onLogoutHandler = () => {
     props.onLogoutHandler();
   };
@@ -25,7 +28,9 @@ const Help = props => {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.optionBtn} onPress={onLogoutHandler}>
+        <TouchableOpacity
+          style={styles.optionBtn}
+          onPress={() => setVisible(true)}>
           <View style={{flex: 2}}>
             <Icon name="log-out" size={25} color="#FF1313" />
           </View>
@@ -34,6 +39,18 @@ const Help = props => {
           </View>
           <View style={{flex: 1, alignItems: 'center'}} />
         </TouchableOpacity>
+
+        <Modal visible={visible} onPress={() => setVisible(!visible)}>
+          <View style={styles.modalWrapper}>
+            <Text style={{fontSize: 20, marginBottom: 20}}>Are you sure ?</Text>
+
+            <TouchableOpacity
+              style={styles.btnLogout}
+              onPress={onLogoutHandler}>
+              <Text style={{fontSize: 16, color: '#FFF'}}>Yes</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
       </View>
     </View>
   );
@@ -75,5 +92,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginVertical: 5,
+  },
+  modalWrapper: {
+    alignItems: 'center',
+  },
+  btnLogout: {
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    backgroundColor: '#FF1313',
+    borderRadius: 10,
   },
 });

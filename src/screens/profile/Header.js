@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   StatusBar,
   ToastAndroid,
+  ImageBackground,
   StyleSheet,
 } from 'react-native';
 import {connect} from 'react-redux';
@@ -23,6 +24,9 @@ const Header = ({authReducer}) => {
   const [image, setImage] = useState({uri: ''});
   const [visible, setVisible] = useState(false);
   const [singleUpload, setSingleUpload] = useState(null);
+  const [newImage, setNewImage] = useState(null);
+
+  console.log(authReducer);
 
   const showToast = message => {
     return ToastAndroid.showWithGravity(
@@ -37,6 +41,9 @@ const Header = ({authReducer}) => {
       const res = await DocumentPicker.pick({
         type: [DocumentPicker.types.allFiles],
       });
+      // console.log(res);
+      setImage({uri: res.fileCopyUri});
+      setNewImage({uri: res.fileCopyUri});
       return setSingleUpload(res);
     } catch (err) {
       console.log(err);
@@ -51,7 +58,7 @@ const Header = ({authReducer}) => {
       },
     };
     launchCamera(options, res => {
-      // console.log('Response = ', res);
+      console.log('Response = ', res);
 
       if (res.didCancel) {
         console.log('User cancelled image picker');
@@ -61,7 +68,8 @@ const Header = ({authReducer}) => {
         console.log('User tapped custom button: ', res.customButton);
         alert(res.customButton);
       } else {
-        // console.log('response', JSON.stringify(res));
+        setImage({uri: res.uri});
+        setNewImage({uri: res.uri});
         return setSingleUpload({
           fileCopyUri: res.uri,
           name: res.fileName,
@@ -83,10 +91,10 @@ const Header = ({authReducer}) => {
       axios
         .patch(`${URL_API}/profile/${id}`, data)
         .then(res => {
-          // console.log(res);
           return showToast('Success');
         })
         .catch(err => {
+          setImage({uri: `${URL_API}${authReducer.user.data.image}`});
           return showToast('Failed');
         });
     }
@@ -97,20 +105,13 @@ const Header = ({authReducer}) => {
   };
 
   const getImage = () => {
-    return axios
-      .get(`${URL_API}/profile/${authReducer.user?.data?.id}`)
-      .then(res => {
-        return setImage({uri: `${URL_API}${res.data.result[0].image}`});
-      })
-      .catch(err => {
-        return console.log(err);
-      });
+    return setImage({uri: `${URL_API}${authReducer.user.data.image}`});
   };
 
   useEffect(() => {
     getUsername();
     getImage();
-  }, [image]);
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -143,6 +144,16 @@ const Header = ({authReducer}) => {
         visible={visible}
         childrenBorder={true}
         onPress={() => setVisible(!visible)}>
+        <View style={{alignItems: 'center'}}>
+          <View style={{height: newImage ? 100 : 0, width: 100}}>
+            <ImageBackground
+              source={newImage}
+              imageStyle={{borderRadius: 10}}
+              style={{flex: 1, height: '100%', width: '100%'}}
+            />
+          </View>
+        </View>
+
         <View style={styles.containerOptionImg}>
           <TouchableOpacity style={styles.optionImgBtn} onPress={choseFile}>
             <Icon name="image" size={15} color="#000" />

@@ -17,6 +17,8 @@ import Modal from '../../components/modal/index';
 import {URL_API} from '@env';
 import axios from 'axios';
 
+import {validateEmail, validateUser, validatePassword} from '../../validation';
+
 const Register = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -30,6 +32,21 @@ const Register = ({navigation}) => {
     if (!username || !email || !password || !valPass) {
       setVisible(true);
       return setSuccess('Some fields cannot be empty');
+    }
+
+    if (!validateUser(username)) {
+      setVisible(true);
+      return setSuccess('Username must be more than 4 character');
+    }
+
+    if (!validateEmail(email)) {
+      setVisible(true);
+      return setSuccess('Email is not valid');
+    }
+
+    if (!validatePassword(password)) {
+      setVisible(true);
+      return setSuccess('Password must be more than 8 character');
     }
 
     if (password !== valPass) {
@@ -97,14 +114,6 @@ const Register = ({navigation}) => {
             />
           </View>
 
-          {!password ? (
-            <Text style={{display: 'none'}} />
-          ) : password.length < 8 ? (
-            <Text>Must be at least 8 character</Text>
-          ) : (
-            <Text style={{display: 'none'}} />
-          )}
-
           <View style={styles.input}>
             <Input
               placeholder="Confirm Password"
@@ -116,14 +125,6 @@ const Register = ({navigation}) => {
               }}
             />
           </View>
-
-          {!valPass ? (
-            <Text style={{display: 'none'}} />
-          ) : valPass === password ? (
-            <Text style={{display: 'none'}} />
-          ) : (
-            <Text>Password does not match!</Text>
-          )}
         </View>
 
         <Modal

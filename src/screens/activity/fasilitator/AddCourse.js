@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   TextInput,
   ToastAndroid,
+  ImageBackground,
   StyleSheet,
 } from 'react-native';
 import {useSelector} from 'react-redux';
@@ -22,6 +23,7 @@ const AddCourse = () => {
   const [descripton, setDescription] = useState('');
   const [singleUpload, setSingleUpload] = useState(null);
   const [visible, setVisible] = useState(false);
+  const [image, setImage] = useState(null);
 
   const authReducer = useSelector(state => state.authReducer);
   const userId = authReducer.user?.data?.id;
@@ -39,6 +41,7 @@ const AddCourse = () => {
       const res = await DocumentPicker.pick({
         type: [DocumentPicker.types.allFiles],
       });
+      setImage({uri: res.fileCopyUri});
       return setSingleUpload(res);
     } catch (err) {
       console.log(err);
@@ -83,6 +86,19 @@ const AddCourse = () => {
           <TouchableOpacity style={styles.btnImg} onPress={choseFile}>
             <Icon name="image" size={16} color="#000" />
           </TouchableOpacity>
+        </View>
+        <View
+          style={{
+            height: 100,
+            width: 100,
+            marginTop: 20,
+            display: image ? 'flex' : 'none',
+          }}>
+          <ImageBackground
+            source={image}
+            style={{width: '100%', height: '100%'}}
+            imageStyle={{borderRadius: 10}}
+          />
         </View>
       </View>
 

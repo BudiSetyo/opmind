@@ -18,6 +18,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Logo from '../../assets/images/reset/reset.svg';
 import Modal from '../../components/modal/index';
 
+import {validateEmail} from '../../validation';
+
 const Reset = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -32,9 +34,9 @@ const Reset = ({navigation}) => {
   };
 
   const resetHandler = () => {
-    if (!email) {
+    if (!validateEmail(email)) {
       setVisible(true);
-      return setMessage('Field is empty');
+      return setMessage('Email is not valid');
     }
 
     axios
