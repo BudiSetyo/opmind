@@ -136,9 +136,8 @@ const Account = () => {
           size="90%">
           <View>
             <View style={styles.curentPhone}>
-              <Text
-                style={{fontSize: 16, fontWeight: 'bold', marginBottom: 10}}>
-                Curent phone number :{' '}
+              <Text style={{fontSize: 18, marginBottom: 10}}>
+                Current phone number :{' '}
               </Text>
               <Text
                 style={{fontSize: 18, color: phoneNumber ? '#000' : '#ADA9A9'}}>

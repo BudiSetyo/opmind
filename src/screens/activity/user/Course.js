@@ -28,8 +28,16 @@ const Course = ({navigation}) => {
   const [visible, setVisible] = useState(false);
   const [tabLevel, setTabLevel] = useState(0);
 
+  const [visibleSort, setVisibleSort] = useState(false);
+  const [sort, setSort] = useState('');
+  const [tabSort, setTabSort] = useState(0);
+
   const authReducer = useSelector(state => state.authReducer);
   const idUser = authReducer.user?.data?.id;
+
+  const filterByLevel = ['', 'Beginner', 'Intermediate', 'Advance'];
+
+  const sortItem = ['', 'Id - AZ', 'Id - ZA', 'Pricing - AZ', 'Pricing - ZA'];
 
   const showToast = message => {
     return ToastAndroid.showWithGravity(
@@ -56,7 +64,7 @@ const Course = ({navigation}) => {
   const getMoreData = () => {
     axios
       .get(
-        `${URL_API}/course/?search=%${search}%&${filter}=${filterItem}&page=${page}&limit=5`,
+        `${URL_API}/course/?search=%${search}%&${filter}=${filterItem}&sort=${sort}&page=${page}&limit=5`,
       )
       .then(res => {
         console.log(res.data.info);
@@ -86,7 +94,9 @@ const Course = ({navigation}) => {
 
   const getFilterData = () => {
     axios
-      .get(`${URL_API}/course/?search=${search}&${filter}=${filterItem}&sort`)
+      .get(
+        `${URL_API}/course/?search=%${search}%&${filter}=${filterItem}&sort=${sort}`,
+      )
       .then(res => {
         console.log(res.data.info);
         if (page > totalPage) {
@@ -97,6 +107,24 @@ const Course = ({navigation}) => {
         return setVisible(!visible);
       })
       .catch(err => console.log(err));
+  };
+
+  const getSortData = () => {
+    axios
+      .get(
+        `${URL_API}/course/?search=%${search}%&${filter}=${filterItem}&sort=${sort}`,
+      )
+      .then(res => {
+        if (page > totalPage) {
+          setPage(2);
+        }
+        setTotalPage(res.data.info.totalPage);
+        setData(res.data.info.result);
+        return setVisibleSort(!visibleSort);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   const notif = new NotifService();
@@ -118,8 +146,6 @@ const Course = ({navigation}) => {
   useEffect(() => {
     getData();
   }, []);
-
-  const filterByLevel = ['', 'Beginner', 'Intermediate', 'Advance'];
 
   return (
     <View style={styles.container}>
@@ -154,7 +180,9 @@ const Course = ({navigation}) => {
             <Text style={{marginRight: 5}}>Filter</Text>
             <Icon name="chevron-down" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.optionBtn}>
+          <TouchableOpacity
+            style={styles.optionBtn}
+            onPress={() => setVisibleSort(true)}>
             <Text style={{marginRight: 5}}>Sort</Text>
             <Icon name="chevron-down" />
           </TouchableOpacity>
@@ -217,6 +245,64 @@ const Course = ({navigation}) => {
           <TouchableOpacity
             style={styles.confirmFilterBtn}
             onPress={getFilterData}>
+            <Text style={{color: '#FFF'}}>confirm</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
+
+      <Modal visible={visibleSort} onPress={() => setVisibleSort(!visibleSort)}>
+        <View>
+          {sortItem.map((item, index) => (
+            <View key={index}>
+              <TouchableOpacity
+                style={{
+                  ...styles.filterBtn,
+                  display: index === 0 ? 'none' : 'flex',
+                  backgroundColor:
+                    tabSort === index ? '#5784BA' : 'transparent',
+                  borderColor: tabSort === index ? '#5784BA' : '#000',
+                }}
+                onPress={() => {
+                  setTabSort(index);
+                  switch (item) {
+                    case 'Id - AZ':
+                      setSort('id-az');
+                      return;
+                    case 'Id - ZA':
+                      setSort('id-za');
+                      return;
+                    case 'Pricing - AZ':
+                      setSort('pricing-az');
+                      return;
+                    case 'Pricing - ZA':
+                      setSort('pricing-za');
+                      return;
+                  }
+                }}>
+                <Text style={{color: tabSort === index ? '#FFF' : '#000'}}>
+                  {item}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          ))}
+        </View>
+
+        <View>
+          <TouchableOpacity
+            style={{...styles.filterBtn, marginTop: 20}}
+            onPress={() => {
+              setSort('');
+              setTabSort(0);
+              return;
+            }}>
+            <Text>Reset</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View>
+          <TouchableOpacity
+            style={styles.confirmFilterBtn}
+            onPress={getSortData}>
             <Text style={{color: '#FFF'}}>confirm</Text>
           </TouchableOpacity>
         </View>

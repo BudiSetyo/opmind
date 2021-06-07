@@ -3,7 +3,14 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {URL_API} from '@env';
 
-import {ScrollView, StatusBar, View, Text, StyleSheet} from 'react-native';
+import {
+  ScrollView,
+  StatusBar,
+  View,
+  BackHandler,
+  Text,
+  StyleSheet,
+} from 'react-native';
 import Input from '../../components/input/index';
 import Btn from '../../components/button/index';
 import Modal from '../../components/modal/index';
@@ -63,6 +70,12 @@ const Change = ({navigation}) => {
         return setMessage(err.response.data);
       });
   };
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', () => true);
+    return () =>
+      BackHandler.removeEventListener('hardwareBackPress', () => true);
+  }, []);
 
   useEffect(() => {
     getOtp();

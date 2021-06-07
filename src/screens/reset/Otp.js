@@ -9,6 +9,7 @@ import {
   View,
   Text,
   TextInput,
+  BackHandler,
   StyleSheet,
 } from 'react-native';
 import Btn from '../../components/button/index';
@@ -82,6 +83,12 @@ const Otp = ({navigation}) => {
     getEmail();
     storeOtp();
   }, [first, second, third, fourth]);
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', () => true);
+    return () =>
+      BackHandler.removeEventListener('hardwareBackPress', () => true);
+  }, []);
 
   return (
     <ScrollView style={styles.container}>

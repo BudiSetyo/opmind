@@ -5,6 +5,7 @@ import {
   View,
   Text,
   TouchableOpacity,
+  BackHandler,
   StyleSheet,
 } from 'react-native';
 import Logo from '../../assets/images/reset/success.svg';
@@ -28,6 +29,12 @@ const Change = ({navigation}) => {
   useEffect(() => {
     removeEmail();
     removeOtp();
+  }, []);
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', () => true);
+    return () =>
+      BackHandler.removeEventListener('hardwareBackPress', () => true);
   }, []);
 
   return (

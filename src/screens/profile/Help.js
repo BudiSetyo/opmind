@@ -44,11 +44,19 @@ const Help = props => {
           <View style={styles.modalWrapper}>
             <Text style={{fontSize: 20, marginBottom: 20}}>Are you sure ?</Text>
 
-            <TouchableOpacity
-              style={styles.btnLogout}
-              onPress={onLogoutHandler}>
-              <Text style={{fontSize: 16, color: '#FFF'}}>Yes</Text>
-            </TouchableOpacity>
+            <View style={{flexDirection: 'row'}}>
+              <TouchableOpacity
+                style={{...styles.btnLogout, backgroundColor: '#FF1313'}}
+                onPress={onLogoutHandler}>
+                <Text style={{fontSize: 16, color: '#FFF'}}>Yes</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={{...styles.btnLogout, backgroundColor: '#5784BA'}}
+                onPress={() => setVisible(!visible)}>
+                <Text style={{fontSize: 16, color: '#FFF'}}>No</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </Modal>
       </View>
@@ -97,9 +105,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   btnLogout: {
+    width: 50,
+    alignItems: 'center',
+    marginHorizontal: 10,
     paddingVertical: 5,
     paddingHorizontal: 10,
-    backgroundColor: '#FF1313',
     borderRadius: 10,
   },
 });
