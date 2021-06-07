@@ -28,8 +28,6 @@ const Course = ({navigation}) => {
   const [visible, setVisible] = useState(false);
   const [tabLevel, setTabLevel] = useState(0);
 
-  console.log(filter);
-  console.log(filterItem);
   const authReducer = useSelector(state => state.authReducer);
   const idUser = authReducer.user?.data?.id;
 
@@ -201,34 +199,6 @@ const Course = ({navigation}) => {
               </TouchableOpacity>
             </View>
           ))}
-
-          {/* <TouchableOpacity
-            style={styles.filterBtn}
-            onPress={() => {
-              setFilter('level');
-              setFilterItem('beginner');
-              return;
-            }}>
-            <Text>Beginner</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.filterBtn}
-            onPress={() => {
-              setFilter('level');
-              setFilterItem('intermediate');
-              return;
-            }}>
-            <Text>Intermediate</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.filterBtn}
-            onPress={() => {
-              setFilter('level');
-              setFilterItem('advance');
-              return;
-            }}>
-            <Text>Advance</Text>
-          </TouchableOpacity> */}
         </View>
 
         <View>
