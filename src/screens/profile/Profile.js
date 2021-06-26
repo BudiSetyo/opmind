@@ -15,7 +15,7 @@ import Account from './Account';
 import Settings from './Settings';
 import Help from './Help';
 
-const Profile = () => {
+const Profile = props => {
   return (
     <View style={styles.container}>
       <Header />
@@ -24,7 +24,7 @@ const Profile = () => {
         <View style={{paddingVertical: 5}} />
         <Settings />
         <View style={{paddingVertical: 5}} />
-        <Help />
+        <Help navigation={props.navigation} />
       </ScrollView>
     </View>
   );

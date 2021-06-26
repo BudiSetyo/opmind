@@ -23,6 +23,20 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
       </activity>
+
+      <!-- add the following lines (use the theme you created at step 2) -->
+    <activity
+      android:name="com.zoontek.rnbootsplash.RNBootSplashActivity"
+      android:theme="@style/BootTheme"
+      android:launchMode="singleTask">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+
+    <!-- … -->
+    
       <meta-data  android:name="com.dieam.reactnativepushnotification.notification_foreground"
                     android:value="false"/>
         <!-- Change the resource name to your App's accent color - or any other color you want -->

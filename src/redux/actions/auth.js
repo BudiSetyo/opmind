@@ -34,9 +34,3 @@ export const logoutHandler = () => {
     dispatch({type: 'LOGOUT'});
   };
 };
-
-export const refreshHandler = () => {
-  return dispatch => {
-    dispatch({type: 'REFRESH'});
-  };
-};

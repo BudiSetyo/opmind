@@ -16,31 +16,14 @@ import Btn from '../../components/button/index';
 import Modal from '../../components/modal/index';
 
 import {validatePassword} from '../../validation';
-const Change = ({navigation}) => {
+const Change = ({navigation, route}) => {
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
-  const [otp, setOtp] = useState('');
-  const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [visible, setVisible] = useState(false);
 
-  const getOtp = async () => {
-    try {
-      const otp = await AsyncStorage.getItem('otp');
-      setOtp(otp);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const getEmail = async () => {
-    try {
-      const email = await AsyncStorage.getItem('email');
-      setEmail(email);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const data = route.params;
+  console.log(data);
 
   const changeHandler = () => {
     if (!password || !confirm) {
@@ -59,7 +42,11 @@ const Change = ({navigation}) => {
     }
 
     axios
-      .post(`${URL_API}/auth/newPassword`, {otp, email, password})
+      .post(`${URL_API}/auth/newPassword`, {
+        otp: data.otp,
+        email: data.email,
+        password,
+      })
       .then(res => {
         // console.log(res.data);
         navigation.navigate('Success');
@@ -75,11 +62,6 @@ const Change = ({navigation}) => {
     BackHandler.addEventListener('hardwareBackPress', () => true);
     return () =>
       BackHandler.removeEventListener('hardwareBackPress', () => true);
-  }, []);
-
-  useEffect(() => {
-    getOtp();
-    getEmail();
   }, []);
 
   return (

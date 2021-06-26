@@ -25,14 +25,6 @@ const Reset = ({navigation}) => {
   const [message, setMessage] = useState('');
   const [visible, setVisible] = useState(false);
 
-  const storeEmail = async () => {
-    try {
-      return await AsyncStorage.setItem('email', email);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const resetHandler = () => {
     if (!validateEmail(email)) {
       setVisible(true);
@@ -42,7 +34,7 @@ const Reset = ({navigation}) => {
     axios
       .post(`${URL_API}/auth/reset`, {email})
       .then(res => {
-        return navigation.navigate('Otp');
+        return navigation.navigate('Otp', {...{email}});
       })
       .catch(err => {
         console.log(err.response.data);
@@ -50,10 +42,6 @@ const Reset = ({navigation}) => {
         return setMessage(err.response.data.message);
       });
   };
-
-  useEffect(() => {
-    storeEmail();
-  }, [email]);
 
   return (
     <ScrollView style={styles.container}>

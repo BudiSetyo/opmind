@@ -3,12 +3,12 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {connect, useSelector} from 'react-redux';
+import RNBootSplash from 'react-native-bootsplash';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-// import Notification from './src/screens/notification/Notif';
+import Notification from './src/screens/notification/Notification';
 
-import Splash from './src/screens/splash';
 import Login from './src/screens/login/Login';
 import Register from './src/screens/register/Register';
 import Reset from './src/screens/reset/Reset';
@@ -31,7 +31,7 @@ import DetailFasilitator from './src/screens/activity/fasilitator/details/Detail
 import Chat from './src/screens/chats/Chat';
 import Single from './src/screens/chats/single/Single';
 import Group from './src/screens/chats/group/Group';
-import DetailGroup from './src/screens/chats/group/detail/detail'
+import DetailGroup from './src/screens/chats/group/detail/detail';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -117,7 +117,7 @@ const HomeRoutes = () => {
 const AuthRoutes = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Splash" component={Splash} />
+      <Stack.Screen name="Notification" component={Notification} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />
       <Stack.Screen name="Reset" component={Reset} />
@@ -131,7 +131,7 @@ const AuthRoutes = () => {
 const App = props => {
   const {isLogin} = props.authReducer;
   return (
-    <NavigationContainer>
+    <NavigationContainer onReady={() => RNBootSplash.hide({fade: true})}>
       <Stack.Navigator screenOptions={{headerShown: false}}>
         {isLogin === true ? (
           <>

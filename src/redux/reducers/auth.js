@@ -3,7 +3,6 @@ const initialState = {
   isLogin: false,
   isError: false,
   error: {},
-  isRefresh: true,
 };
 
 export const authReducer = (state = initialState, {type, payload}) => {
@@ -23,11 +22,6 @@ export const authReducer = (state = initialState, {type, payload}) => {
         isError: true,
       };
     case 'LOGOUT':
-      return {
-        ...state,
-        ...initialState,
-      };
-    case 'REFRESH':
       return {
         ...state,
         ...initialState,

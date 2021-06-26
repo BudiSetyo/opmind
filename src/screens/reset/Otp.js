@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {URL_API} from '@env';
@@ -16,38 +16,42 @@ import Btn from '../../components/button/index';
 import Logo from '../../assets/images/reset/otp.svg';
 import Modal from '../../components/modal/index';
 
-const Otp = ({navigation}) => {
+const Otp = ({navigation, route}) => {
+  const [message, setMessage] = useState('');
+  const [visible, setVisible] = useState(false);
+  const [isFilled, setIsFilled] = useState(false);
+
   const [first, setFirst] = useState('');
   const [second, setSecond] = useState('');
   const [third, setThird] = useState('');
   const [fourth, setFourth] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-  const [visible, setVisible] = useState(false);
+
+  const num1 = useRef();
+  const num2 = useRef();
+  const num3 = useRef();
+  const num4 = useRef();
+
+  // useEffect(() => {
+  //   if (first && second && third && fourth) {
+  //     setIsFilled(true);
+  //   } else {
+  //     setIsFilled(false);
+  //   }
+  // }, [first, second, third, fourth]);
 
   const otp = [first, second, third, fourth];
   const otpAxios = otp.join('');
-
-  const getEmail = async () => {
-    try {
-      const value = await AsyncStorage.getItem('email');
-      setEmail(value);
-    } catch (err) {
-      console.log(err);
-    }
+  const sendData = {
+    email: route.params.email,
+    otp: otpAxios,
   };
 
-  const storeOtp = async () => {
-    try {
-      await AsyncStorage.setItem('otp', otpAxios);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // console.log(sendData.email);
+  console.log(otpAxios);
 
   const resendHandler = () => {
     axios
-      .post(`${URL_API}/auth/reset`, {email})
+      .post(`${URL_API}/auth/reset`, {email: sendData.email})
       .then(res => {
         // console.log(res.data);
         setVisible(true);
@@ -62,27 +66,24 @@ const Otp = ({navigation}) => {
 
   const otpHandler = () => {
     if (otpAxios.lengt < 4) {
+      setMessage('Invalid otp');
       setVisible(true);
-      return setMessage('Invalid otp');
+      return;
     }
 
     axios
-      .post(`${URL_API}/auth/otp`, {otp: otpAxios, email})
+      .post(`${URL_API}/auth/otp`, {otp: otpAxios, email: sendData.email})
       .then(res => {
         // console.log(res.data);
-        return navigation.navigate('Change');
+        return navigation.navigate('Change', {...sendData});
       })
       .catch(err => {
-        console.log(err.response);
+        // console.log(err.response);
+        setMessage(err.response.data.message);
         setVisible(true);
-        return setMessage(err.response.data.result);
+        return;
       });
   };
-
-  useEffect(() => {
-    getEmail();
-    storeOtp();
-  }, [first, second, third, fourth]);
 
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', () => true);
@@ -116,28 +117,56 @@ const Otp = ({navigation}) => {
             maxLength={1}
             keyboardType="numeric"
             value={first}
-            onChangeText={e => setFirst(e)}
+            ref={num1}
+            onChangeText={e => {
+              if (e.length < 1) {
+                num1.current.focus;
+              }
+              setFirst(e);
+              return num2.current.focus();
+            }}
           />
           <TextInput
             style={styles.otpInput}
             maxLength={1}
             keyboardType="numeric"
             value={second}
-            onChangeText={e => setSecond(e)}
+            ref={num2}
+            onChangeText={e => {
+              if (e.length < 1) {
+                num1.current.focus;
+              }
+              setSecond(e);
+              return num3.current.focus();
+            }}
           />
           <TextInput
             style={styles.otpInput}
             maxLength={1}
             keyboardType="numeric"
             value={third}
-            onChangeText={e => setThird(e)}
+            ref={num3}
+            onChangeText={e => {
+              if (e.length < 1) {
+                num2.current.focus;
+              }
+              setThird(e);
+              return num4.current.focus();
+            }}
           />
           <TextInput
             style={styles.otpInput}
             maxLength={1}
             keyboardType="numeric"
             value={fourth}
-            onChangeText={e => setFourth(e)}
+            ref={num4}
+            onChangeText={e => {
+              // console.log(e.length);
+              if (e.length < 1) {
+                num3.current.focus;
+              }
+              setFourth(e);
+            }}
           />
         </View>
 

@@ -3,19 +3,24 @@ import {View, Text, StyleSheet} from 'react-native';
 import {useSelector} from 'react-redux';
 import axios from 'axios';
 import {URL_API} from '@env';
+import moment from 'moment';
 
 const ForYou = () => {
   const [schedule, setShedule] = useState([]);
 
   const authReducer = useSelector(state => state.authReducer);
-  const idUser = authReducer.user?.data?.id;
 
-  // console.log(idUser);
-  // console.log(schedule);
+  console.log(moment().format('DD'));
 
   const getScheduleCourse = () => {
+    const token = authReducer.user?.token;
+    const config = {
+      headers: {
+        authorization: 'Bearer ' + token,
+      },
+    };
     axios
-      .get(`${URL_API}/dashboard/${idUser}?day=1`)
+      .get(`${URL_API}/dashboard/?day=1`, config)
       .then(res => {
         console.log(res);
         return setShedule(res.data.result);
